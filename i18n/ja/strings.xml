@@ -30,7 +30,6 @@
 	<string name="add_album">アルバム追加</string>
 	<string name="new_album_title">非公開テストアルバム</string>
 	<string name="new_album_description">mixi Graph APIによって作成されました</string>
-	<string name="add_photo">写真追加</string>
 	<string name="select_album">アルバム一覧</string>
 	<string name="may_i_upload">アップロードしてよろしいですか？</string>
 	<string name="upload">アップロード</string>
