@@ -7,4 +7,14 @@
 	<string name="my_profile">My profile</string>
 	<string name="friend_list">Friend list</string>
 	<string name="friend_birthday">Friend birthday (custom)</string>
+	<string name="voice_api">Voice API</string>
+	<string name="user_timeline">User timeline</string>
+	<string name="friend_timeline">Friend timeline</string>
+	<string name="new_voice">New message</string>
+	<string name="post_voice">Post message</string>
+	<string name="please_input_voice">Please input message</string>
+	<string name="post_successful">Post successful</string>
+	<string name="test_voice">Test message</string>
+	<string name="add_photo">Add photo</string>
+	<string name="add_voice">New message</string>
 </resources>

@@ -7,4 +7,14 @@
 	<string name="my_profile">自分のプロフィール</string>
 	<string name="friend_list">友達一覧</string>
 	<string name="friend_birthday">友人の誕生日(カスタム)</string>
+	<string name="voice_api">Voice API</string>
+	<string name="user_timeline">つぶやき一覧</string>
+	<string name="friend_timeline">友達のつぶやき一覧</string>
+	<string name="new_voice">新しいつぶやき</string>
+	<string name="post_voice">つぶやく</string>
+	<string name="please_input_voice">つぶやきを入力してください</string>
+	<string name="post_successful">投稿しました</string>
+	<string name="test_voice">テスト投稿</string>
+	<string name="add_photo">写真追加</string>
+	<string name="add_voice">つぶやく</string>
 </resources>

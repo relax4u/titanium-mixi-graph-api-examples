@@ -70,21 +70,27 @@ APIによってはパラメータを指定することもあります。その�
 
 ### People API
 
-`MixiGraphApi#people()`で mixi Graph API で提供されている People API を呼び出すことができます。
+mixi Graph API で提供されている People API を呼び出すことができます。
 
-    api.people({
-        userId: "@me",
-        groupId: "@friends",
-        parameters: {
-            sortBy: "displayName"
-        },
-        success: function(json) {
-        },
-        failure: function() {
-        }
-    });
+* people({userId: "@me", groupId: "@self"})
 
-### その他 API
+### Voice API
+
+mixi Graph API で提供されている Voice API を呼び出すことができます。
+
+* voiceStatusesUserTimeline()
+* voiceStatusesFriendTimeline()
+* voiceStatuses({postId: "postId"})
+* voiceReplies({postId: "postId"})
+* voiceFavorites({postId: "postId"})
+* voiceStatusesUpdate({parameters: {status: "message", image: Ti.Blob})
+* voiceStatusesDestroy({postId: "postId"})
+* voiceRepliesCreate({postId: "postId", parameters: {text: "comment"}})
+* voiceRepliesDestroy({postId: "postId", commentId: "commentId"})
+* voiceFavoritesCreate({postId: "postId")
+* voiceFacoritesDestroy({postId: "postId", userId:"@me"})
+
+### Other APIs
 
 実装されていないAPIなどは、こちらを利用することで呼び出すことが可能です。
 
@@ -95,3 +101,10 @@ APIによってはパラメータを指定することもあります。その�
         error: function(){
         }
     });
+
+
+## for Android
+
+Android版に適用する場合は、tiapp.xml に以下の記述を追加してください。追加しないと動かないと思います。
+
+    <property name="ti.android.threadstacksize" type="int">51200</property>

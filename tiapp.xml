@@ -8,7 +8,7 @@
         <target device="blackberry">false</target>
     </deployment-targets>
     <id>com.example.sample</id>
-    <name>titnaium-mixi-graph-api2</name>
+    <name>titanium-mixi-graph-api</name>
     <version>1.0</version>
     <publisher>relax4u</publisher>
     <url>http://</url>

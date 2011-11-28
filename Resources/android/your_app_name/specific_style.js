@@ -18,6 +18,13 @@
 				height: 70
 			};
 			
+			$$.textArea = {
+				top: 40,
+				width: 400, height: 200,
+				font: {fontSize: 30},
+				value: L('test_voice')
+			};
+			
 			$$.textField = {
 				top: 40,
 				width: 440,

@@ -40,6 +40,62 @@ var GraphApi = function(params) {
 		self.callApi("GET", url, config);
 	};
 	
+	this.voiceStatusesUserTimeline = function(config) {
+		var url = "http://api.mixi-platform.com/2/voice/statuses/@me/user_timeline";
+		self.callApi("GET", url, config);
+	};
+	
+	this.voiceStatusesFriendTimeline = function(config) {
+		config = mixin({groupId: ""}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/voice/statuses/friends_timeline/%s", config.groupId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.voiceStatuses = function(config) {
+		var url = String.format("http://api.mixi-platform.com/2/voice/statuses/%s", config.postId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.voiceReplies = function(config) {
+		var url = String.format("http://api.mixi-platform.com/2/voice/replies/%s", config.postId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.voiceFavorites = function(config) {
+		var url = String.format("http://api.mixi-platform.com/2/voice/favorites/%s", config.postId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.voiceStatusesUpdate = function(config) {
+		var url = "http://api.mixi-platform.com/2/voice/statuses";
+		self.callApi("POST", url, config);
+	};
+	
+	this.voiceStatusesDestroy = function(config) {
+		var url = String.format("http://api.mixi-platform.com/2/voice/statuses/%s", config.postId);
+		self.callApi("DELETE", url, config);
+	};
+	
+	this.voiceRepliesCreate = function(config) {
+		var url = String.format("http://api.mixi-platform.com/2/voice/replies/%s", config.postId);
+		self.callApi("POST", url, config);
+	};
+	
+	this.voiceRepliesDestroy = function(config) {
+		var url = String.format("http://api.mixi-platform.com/2/voice/replies/%s/%s", config.postId, config.commentId);
+		self.callApi("DELETE", url, config);
+	};
+	
+	this.voiceFavoritesCreate = function(config) {
+		var url = String.format("http://api.mixi-platform.com/2/voice/favorites/%s", config.postId);
+		self.callApi("POST", url, config);
+	};
+	
+	this.voiceFacoritesDestroy = function(config) {
+		var url = String.format("http://api.mixi-platform.com/2/voice/favorites/%s/%s", config.postId, config.userId);
+		self.callApi("DELETE", url, config);
+	};
+	
 	this.callApi = function(method, url, config) {
 		config = mixin({
 			autoAuthorize: self.autoAuthorize,
