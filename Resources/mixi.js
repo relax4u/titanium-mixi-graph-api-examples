@@ -58,6 +58,18 @@ var GraphApi = function(params) {
 		self.callApi("GET", url, config);
 	};
 	
+	this.updates = function(config) {
+		config = mixin({
+			userId: "@me",
+			groupId: "@self",
+			parameters: {}
+		}, config, true);
+		mixin(config.parameters, {device: "mobile"});
+		
+		var url = String.format("http://api.mixi-platform.com/2/updates/%s/%s", config.userId, config.groupId);
+		self.callApi("GET", url, config);
+	};
+	
 	this.voiceStatusesUserTimeline = function(config) {
 		var url = "http://api.mixi-platform.com/2/voice/statuses/@me/user_timeline";
 		self.callApi("GET", url, config);
