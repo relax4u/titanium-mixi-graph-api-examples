@@ -7,6 +7,8 @@
 	<string name="my_profile">自分のプロフィール</string>
 	<string name="friend_list">友達一覧</string>
 	<string name="friend_birthday">友人の誕生日(カスタム)</string>
+	<string name="groups_api">Groups API</string>
+	<string name="group_list">グループ一覧</string>
 	<string name="voice_api">Voice API</string>
 	<string name="user_timeline">つぶやき一覧</string>
 	<string name="friend_timeline">友達のつぶやき一覧</string>

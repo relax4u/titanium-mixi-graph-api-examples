@@ -56,7 +56,8 @@
 			data: [
 				{title: L("authorize"), ui: "authorize", hasChild: true},
 				{title: L("people_api"), ui: "people", hasChild: true},
-				{title: L("voice_api"), ui: "voice", hasChild: true},
+				{title: L("groups_api"), ui: "groups", hasChild: true},
+				{title: L("voice_api"), ui: "voice", hasChild: true}
 			]
 		});
 		tableView.addEventListener('click', function(e){
@@ -72,5 +73,6 @@
 Ti.include(
 	"/your_app_name/ui/authorize.js",
 	"/your_app_name/ui/people.js",
+	"/your_app_name/ui/groups.js",
 	"/your_app_name/ui/voice.js"
 );

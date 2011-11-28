@@ -74,6 +74,12 @@ mixi Graph API で提供されている People API を呼び出すことがで�
 
 * people({userId: "@me", groupId: "@self"})
 
+### Groups API
+
+mixi Graph API で提供されている Groups API を呼び出すことができます。
+
+* groups({userId: "@me"})
+
 ### Voice API
 
 mixi Graph API で提供されている Voice API を呼び出すことができます。

@@ -40,6 +40,15 @@ var GraphApi = function(params) {
 		self.callApi("GET", url, config);
 	};
 	
+	this.groups = function(config) {
+		config = mixin({
+			userId: "@me"
+		}, config, true);
+		
+		var url = String.format("http://api.mixi-platform.com/2/groups/%s", config.userId);
+		self.callApi("GET", url, config);
+	};
+	
 	this.voiceStatusesUserTimeline = function(config) {
 		var url = "http://api.mixi-platform.com/2/voice/statuses/@me/user_timeline";
 		self.callApi("GET", url, config);
