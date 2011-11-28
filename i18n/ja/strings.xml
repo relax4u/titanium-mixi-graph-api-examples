@@ -9,6 +9,10 @@
 	<string name="friend_birthday">友人の誕生日(カスタム)</string>
 	<string name="groups_api">Groups API</string>
 	<string name="group_list">グループ一覧</string>
+	<string name="people_lookup_api">People lookup API</string>
+	<string name="please_input_email">メールアドレスを入力してください</string>
+	<string name="search_friend">友達から検索する</string>
+	<string name="search_all">全員から検索する</string>
 	<string name="voice_api">Voice API</string>
 	<string name="user_timeline">つぶやき一覧</string>
 	<string name="friend_timeline">友達のつぶやき一覧</string>

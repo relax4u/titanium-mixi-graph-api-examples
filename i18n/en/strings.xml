@@ -9,6 +9,10 @@
 	<string name="friend_birthday">Friend birthday (custom)</string>
 	<string name="groups_api">Groups API</string>
 	<string name="group_list">Group list</string>
+	<string name="people_lookup_api">People lookup API</string>
+	<string name="please_input_email">Please input email</string>
+	<string name="search_friend">Search from friends</string>
+	<string name="search_all">Search from all</string>
 	<string name="voice_api">Voice API</string>
 	<string name="user_timeline">User timeline</string>
 	<string name="friend_timeline">Friend timeline</string>

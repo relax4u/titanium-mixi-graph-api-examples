@@ -49,6 +49,15 @@ var GraphApi = function(params) {
 		self.callApi("GET", url, config);
 	};
 	
+	this.searchPeople = function(config) {
+		config = mixin({
+			groupId: "@friends",
+		}, config, true);
+		
+		var url = String.format("http://api.mixi-platform.com/2/search/people/%s", config.groupId);
+		self.callApi("GET", url, config);
+	};
+	
 	this.voiceStatusesUserTimeline = function(config) {
 		var url = "http://api.mixi-platform.com/2/voice/statuses/@me/user_timeline";
 		self.callApi("GET", url, config);
@@ -195,7 +204,9 @@ var GraphApi = function(params) {
 		
 		var parameters = [];
 		for (var name in params) {
-			parameters.push(String.format("%s=%s", name, Ti.Network.encodeURIComponent(params[name])));
+			var value = (typeof params[name] == "object") ? params[name].toString() : params[name]
+			
+			parameters.push(String.format("%s=%s", name,Ti.Network.encodeURIComponent(value)));
 		}
 		
 		if (parameters.length > 0) {
@@ -288,10 +299,6 @@ var GraphApi = function(params) {
 		Ti.App.Properties.removeProperty("mixiGraphApi:refreshToken");
 		Ti.App.Properties.removeProperty("mixiGraphApi:scope");
 		return null;
-	};
-	
-	function checkScope(availableScope){
-		return self.scopes.indexOf(availableScope) >= 0;
 	};
 	
 	function _callApi(method, url, config) {

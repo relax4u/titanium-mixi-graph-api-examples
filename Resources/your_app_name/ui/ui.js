@@ -57,6 +57,7 @@
 				{title: L("authorize"), ui: "authorize", hasChild: true},
 				{title: L("people_api"), ui: "people", hasChild: true},
 				{title: L("groups_api"), ui: "groups", hasChild: true},
+				{title: L("people_lookup_api"), ui: "peopleLookup", hasChild: true},
 				{title: L("voice_api"), ui: "voice", hasChild: true}
 			]
 		});
@@ -74,5 +75,6 @@ Ti.include(
 	"/your_app_name/ui/authorize.js",
 	"/your_app_name/ui/people.js",
 	"/your_app_name/ui/groups.js",
+	"/your_app_name/ui/people_lookup.js",
 	"/your_app_name/ui/voice.js"
 );

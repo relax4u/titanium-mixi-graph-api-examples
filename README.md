@@ -80,6 +80,12 @@ mixi Graph API で提供されている Groups API を呼び出すことがで�
 
 * groups({userId: "@me"})
 
+### People lookup API
+
+mixi Graph API で提供されている People lookup API を呼び出すことができます。
+
+* searchPeople({groupId: "@friends", parameters: {q: \["foo@example.com", "bar@example.com"\]}})
+
 ### Voice API
 
 mixi Graph API で提供されている Voice API を呼び出すことができます。
