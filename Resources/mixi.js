@@ -126,6 +126,117 @@ var GraphApi = function(params) {
 		self.callApi("DELETE", url, config);
 	};
 	
+	this.photoAlbums = function(config) {
+		config = mixin({userId: "@me", albumId: ""}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/albums/%s/@self/%s", config.userId, config.albumId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.photoFriendAlbums = function(config) {
+		config = mixin({userId: "@me", groupId: "@friends"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/albums/%s/%s", config.userId, config.groupId);
+		self.callApi("GET", url, config)
+	}
+	
+	this.photoMediaItems = function(config) {
+		config = mixin({userId: "@me", albumId: "@default", mediaItemId: ""}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/mediaItems/%s/@self/%s/%s",
+			config.userId, config.albumId, config.mediaItemId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.photoFriendMediaItems = function(config) {
+		config = mixin({userId: "@me", groupId: "@friends"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/mediaItems/%s/%s", config.userId, config.groupId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.photoAlbumComments = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/comments/albums/%s/@self/%s",
+			config.userId, config.albumId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.photoMediaItemComments = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/comments/mediaItems/%s/@self/%s/%s",
+			config.userId, config.albumId, config.mediaItemId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.photoMediaItemFavorites = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/favorites/mediaItems/%s/@self/%s/%s",
+			config.userId, config.albumId, config.mediaItemId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.photoAlbumsCreate = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/albums/%s/@self", config.userId);
+		self.callApi("POST", url, config);
+	};
+	
+	this.photoAlbumsDestroy = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/albums/%s/@self/%s", config.userId, config.albumId);
+		self.callApi("DELETE", url, config);
+	};
+	
+	this.photoAlbumCommentsCreate = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/comments/albums/%s/@self/%s",
+			config.userId, config.albumId);
+		self.callApi("POST", url, config);
+	};
+	
+	this.photoAlbumCommentsDestroy = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/comments/albums/%s/@self/%s/%s",
+			config.userId, config.albumId, config.commentId);
+		self.callApi("DELETE", url, config);
+	};
+	
+	this.photoMediaItemsCreate = function(config) {
+		// TODO:
+	};
+	
+	this.photoMediaItemsDestroy = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/mediaItems/%s/@self/%s/%s",
+			config.userId, config.albumId, config.mediaItemId);
+		self.callApi("DELETE", url, config);
+	};
+	
+	this.photoMediaItemCommentsCreate = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/comments/mediaItems/%s/@self/%s/%s",
+			config.userId, config.albumId, config.mediaItemId);
+		self.callApi("POST", url, config);
+	};
+	
+	this.photoMediaItemCommentsDestroy = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/comments/mediaItems/%s/@self/%s/%s/%s",
+			config.userId, config.albumId, config.mediaItemId, config.commentId);
+		self.callApi("DELETE", url, config);
+	};
+	
+	this.photoMediaItemFavoritesCreate = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/favorites/mediaItems/%s/@self/%s/%s",
+			config.userId, config.albumId, config.mediaItemId);
+		self.callApi("POST", url, config);
+	};
+	
+	this.photoMediaItemFavoritesDestroy = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/favorites/mediaItems/%s/@self/%s/%s/%s",
+			config.userId, config.albumId, config.mediaItemId, config.favoriteUserId);
+		self.callApi("DELETE", url, config);
+	};
+	
 	this.callApi = function(method, url, config) {
 		config = mixin({
 			autoAuthorize: self.autoAuthorize,
@@ -393,6 +504,5 @@ function mixin(target, object, force) {
 	}
 	return target;
 }
-
 
 exports.GraphApi = GraphApi;

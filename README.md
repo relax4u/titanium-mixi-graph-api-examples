@@ -4,6 +4,7 @@ Titanium Mobile用のmixi Graph APIモジュールです。
 
 * APIを呼び出した際に、未認証の場合は自動的に認証画面が先に開きます。 (OFFにすることも可能です。
 * 認証後のaccessTokenの再取得などは自動で行います。
+* 絵文字は未対応です。
 
 ## initialize
 
@@ -70,25 +71,21 @@ APIによってはパラメータを指定することもあります。その�
 
 ### People API
 
-mixi Graph API で提供されている People API を呼び出すことができます。
-
 * people({userId: "@me", groupId: "@self"})
 
 ### Groups API
-
-mixi Graph API で提供されている Groups API を呼び出すことができます。
 
 * groups({userId: "@me"})
 
 ### People lookup API
 
-mixi Graph API で提供されている People lookup API を呼び出すことができます。
-
 * searchPeople({groupId: "@friends", parameters: {q: \["foo@example.com", "bar@example.com"\]}})
 
-### Voice API
+### Updates API
 
-mixi Graph API で提供されている Voice API を呼び出すことができます。
+* updates({userId: "@me", groupId: "@self"})
+
+### Voice API
 
 * voiceStatusesUserTimeline()
 * voiceStatusesFriendTimeline()
@@ -101,6 +98,46 @@ mixi Graph API で提供されている Voice API を呼び出すことができ
 * voiceRepliesDestroy({postId: "postId", commentId: "commentId"})
 * voiceFavoritesCreate({postId: "postId")
 * voiceFacoritesDestroy({postId: "postId", userId:"@me"})
+
+### Check API
+
+現在は対応していません。
+
+### Photo API
+
+* photoAlbums()
+* photoFriendAlbums()
+* photoMediaItems({albumId: "albumId"})
+* photoFriendMediaItems({albumId: "albumId"})
+* photoAlbumComments({albumId: "albumId"})
+* photoMediaItemComments({albumId: "albumId", mediaItemId: "mediaItemId"})
+* photoMediaItemFavorites({albumId: "albumId", mediaItemId: "mediaItemId"})
+* photoAlbumsCreate({parameters: {title: "album title", description: "album description", visibility: "self"}})
+* photoAlbumsDestroy({albumId: "albumId"})
+* photoAlbumCommentsCreate({albumId: "albumId", parameters: {text: "comment"}})
+* photoAlbumCommentsDestroy({albumId: "albumId", commentId: "commentId")
+* photoMediaItemsCreate({albumId: "albumId", parameters: {title: "photo title", image: Ti.Blob}})
+* photoMediaItemsDestroy({albumId: "alubmId", mediaItemId: "mediaItemId"})
+* photoMediaItemCommentsCreate({albumId: "albumId", mediaItemId: "mediaItemId", parameters: {text: "comment"}})
+* photoMediaItemCommentsDestroy({albumId: "albumId", mediaItemId: "mediaItemId", commentId: "commentId"})
+* photoMediaItemFavoritesCreate({albumId: "albumId", mediaItemId: "mediaItemId"})
+* photoMediaItemFavoritesDestroy({albumId: "albumId", mediaItemId: "mediaItemId", favoriteUserId: "favoriteUserId"})
+
+### Message API
+
+現在は対応していません。
+
+### Dialy API
+
+現在は対応していません。
+
+### Check-in API
+
+現在は対応していません。
+
+### Profile Image API
+
+現在は対応していません。
 
 ### Other APIs
 
