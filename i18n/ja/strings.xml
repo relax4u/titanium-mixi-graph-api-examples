@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string name="mixi_graph_api_sample">mixi Graph API サンプル</string>
+	<string name="authorize">認証</string>
+	<string name="logout">ログアウト</string>
+	<string name="people_api">People API</string>
+	<string name="my_profile">自分のプロフィール</string>
+	<string name="friend_list">友達一覧</string>
+	<string name="friend_birthday">友人の誕生日(カスタム)</string>
+</resources>

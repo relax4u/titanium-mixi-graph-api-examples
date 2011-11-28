@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string name="mixi_graph_api_sample">mixi Graph API sample</string>
+	<string name="authorize">Authorize</string>
+	<string name="logout">Logout</string>
+	<string name="people_api">People API</string>
+	<string name="my_profile">My profile</string>
+	<string name="friend_list">Friend list</string>
+	<string name="friend_birthday">Friend birthday (custom)</string>
+</resources>

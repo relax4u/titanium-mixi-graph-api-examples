@@ -1,0 +1,8 @@
+var mixi = {
+	config: {
+		consumerKey: "",
+		consumerSecret: "",
+		scope: ["r_profile", "r_profile_birthday", "r_profile_name", "r_photo", "w_photo"],
+		autoAuthorize: true
+	}
+};

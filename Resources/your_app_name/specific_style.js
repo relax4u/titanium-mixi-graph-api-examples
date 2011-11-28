@@ -1,0 +1,3 @@
+(function(){
+	// for iphone style.
+})();
