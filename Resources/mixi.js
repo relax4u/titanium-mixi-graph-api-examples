@@ -199,7 +199,10 @@ var GraphApi = function(params) {
 	};
 	
 	this.photoMediaItemsCreate = function(config) {
-		// TODO:
+		config = mixin({userId: "@me", type: "image"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/photo/mediaItems/%s/@self/%s",
+			config.userId, config.albumId);
+		self.callApi("POST", url, config);
 	};
 	
 	this.photoMediaItemsDestroy = function(config) {
@@ -446,6 +449,15 @@ var GraphApi = function(params) {
 			Ti.API.error(String.format("[mixi] calling api failed. (%d - %s)", xhr.status, e));
 			tryCall(config.error, e);
 		};
+		
+		if (config.type === "image") {
+			var image = config.parameters.image;
+			delete config.parameters;
+			
+			url = _addQueryString(url, config.parameters);
+			
+			config.parameters = image;
+		}
 		
 		if (method.match(/GET/i)) {
 			url = _addQueryString(url, config.parameters);

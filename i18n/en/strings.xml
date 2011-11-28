@@ -25,4 +25,14 @@
 	<string name="test_voice">Test message</string>
 	<string name="add_photo">Add photo</string>
 	<string name="add_voice">New message</string>
+	<string name="photo_api">Photo API</string>
+	<string name="album_list">Album list</string>
+	<string name="add_album">Add album</string>
+	<string name="new_album_title">Test Album</string>
+	<string name="new_album_description">Created by mixi Graph API</string>
+	<string name="add_photo">Add photo</string>
+	<string name="select_album">Album list</string>
+	<string name="may_i_upload">Upload photo</string>
+	<string name="upload">Upload</string>
+	<string name="cancel">Cancel</string>
 </resources>

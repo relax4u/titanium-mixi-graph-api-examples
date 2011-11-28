@@ -2,7 +2,8 @@ var mixi = {
 	config: {
 		consumerKey: "",
 		consumerSecret: "",
-		scope: ["r_profile", "r_profile_birthday", "r_profile_name", "r_updates", "r_voice", "w_voice"],
+		scope: ["r_profile", "r_profile_birthday", "r_profile_name", "r_updates",
+			"r_voice", "w_voice", "r_photo", "w_photo"],
 		autoAuthorize: true
 	}
 };

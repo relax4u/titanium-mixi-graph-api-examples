@@ -25,4 +25,14 @@
 	<string name="test_voice">テスト投稿</string>
 	<string name="add_photo">写真追加</string>
 	<string name="add_voice">つぶやく</string>
+	<string name="photo_api">Photo API</string>
+	<string name="album_list">アルバム一覧</string>
+	<string name="add_album">アルバム追加</string>
+	<string name="new_album_title">非公開テストアルバム</string>
+	<string name="new_album_description">mixi Graph APIによって作成されました</string>
+	<string name="add_photo">写真追加</string>
+	<string name="select_album">アルバム一覧</string>
+	<string name="may_i_upload">アップロードしてよろしいですか？</string>
+	<string name="upload">アップロード</string>
+	<string name="cancel">キャンセル</string>
 </resources>
