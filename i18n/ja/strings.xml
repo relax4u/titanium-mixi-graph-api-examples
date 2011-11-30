@@ -25,6 +25,8 @@
 	<string name="test_voice">テスト投稿</string>
 	<string name="add_photo">写真追加</string>
 	<string name="add_voice">つぶやく</string>
+	<string name="check_api">Check API</string>
+	<string name="check">いいね！</string>
 	<string name="photo_api">Photo API</string>
 	<string name="album_list">アルバム一覧</string>
 	<string name="add_album">アルバム追加</string>

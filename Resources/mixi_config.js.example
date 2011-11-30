@@ -3,7 +3,11 @@ var mixi = {
 		consumerKey: "",
 		consumerSecret: "",
 		scope: ["r_profile", "r_profile_birthday", "r_profile_name", "r_updates",
-			"r_voice", "w_voice", "r_photo", "w_photo"],
+			"r_voice", "w_voice", "r_photo", "w_photo", "w_share"],
 		autoAuthorize: true
-	}
+	},
+	
+	// for Check API
+	key: "",
+	primary_url: ""
 };

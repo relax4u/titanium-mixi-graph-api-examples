@@ -25,6 +25,8 @@
 	<string name="test_voice">Test message</string>
 	<string name="add_photo">Add photo</string>
 	<string name="add_voice">New message</string>
+	<string name="check_api">Check API</string>
+	<string name="check">Like！</string>
 	<string name="photo_api">Photo API</string>
 	<string name="album_list">Album list</string>
 	<string name="add_album">Add album</string>

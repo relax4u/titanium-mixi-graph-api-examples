@@ -126,6 +126,12 @@ var GraphApi = function(params) {
 		self.callApi("DELETE", url, config);
 	};
 	
+	this.share = function(config) {
+		var url = "http://api.mixi-platform.com/2/share";
+		config.type = "json";
+		self.callApi("POST", url, config);
+	};
+	
 	this.photoAlbums = function(config) {
 		config = mixin({userId: "@me", albumId: ""}, config, true);
 		var url = String.format("http://api.mixi-platform.com/2/photo/albums/%s/@self/%s", config.userId, config.albumId);
@@ -450,13 +456,19 @@ var GraphApi = function(params) {
 			tryCall(config.error, e);
 		};
 		
-		if (config.type === "image") {
-			var image = config.parameters.image;
-			delete config.parameters;
-			
-			url = _addQueryString(url, config.parameters);
-			
-			config.parameters = image;
+		switch (config.type) {
+			case "json":
+				config.contentType = "application/json; charset=utf8";
+				config.parameters = JSON.stringify(config.parameters);
+				break;
+			case "image":
+				var image = config.parameters.image;
+				delete config.parameters;
+				
+				url = _addQueryString(url, config.parameters);
+				
+				config.parameters = image;
+				break;
 		}
 		
 		if (method.match(/GET/i)) {
@@ -464,6 +476,10 @@ var GraphApi = function(params) {
 		}
 		
 		xhr.open(method, url);
+		
+		if (config.contentType) {
+			xhr.setRequestHeader("Content-Type", config.contentType);
+		}
 		xhr.setRequestHeader("Authorization", "OAuth " + self.accessToken);
 		
 		if (method.match(/GET/i)) {
