@@ -34,7 +34,13 @@
             <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
         </orientations>
     </iphone>
-    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
+        <tool-api-level>8</tool-api-level>
+        <manifest android:installLocation="preferExternal">
+            <uses-sdk android:minSdkVersion="7" />
+            <supports-screens android:anyDensity="false"/>
+        </manifest>
+    </android>
     <modules/>
     <property name="ti.android.threadstacksize" type="int">51200</property>
 </ti:app>
