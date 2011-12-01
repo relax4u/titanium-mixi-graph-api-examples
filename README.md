@@ -101,7 +101,7 @@ APIによってはパラメータを指定することもあります。その�
 
 ### Check API
 
-現在は対応していません。
+* share({key: "key", title: "title", primary_url: "http://example.com/"})
 
 ### Photo API
 
@@ -125,7 +125,12 @@ APIによってはパラメータを指定することもあります。その�
 
 ### Message API
 
-現在は対応していません。
+* messagesInbox()
+* messagesOutbox()
+* messagesSend({title: "title", body: "body", recipients: ["userId"]})
+* messagesInbodUpdate({status: "read"})
+* messagesInboxDestroy({messageId: "messageId"})
+* messagesOutboxDestroy({messageId: "messageId"})
 
 ### Dialy API
 
@@ -137,7 +142,10 @@ APIによってはパラメータを指定することもあります。その�
 
 ### Profile Image API
 
-現在は対応していません。
+* peopleImages()
+* peopleImagesCreate({parameters: {image: Ti.Blob, privacy: "everyone"}})
+* peopleImagesUpdate({imageId: "imageId", parameters: {primary: true, privacy: "everyone"}})
+* peopleImagesDestroy({imageId: "imageId"})
 
 ### Other APIs
 
