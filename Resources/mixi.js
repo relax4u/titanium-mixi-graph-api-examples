@@ -281,6 +281,53 @@ var GraphApi = function(params) {
 		self.callApi("DELETE", url, config);
 	};
 	
+	this.searchSpot = function(config) {
+		config = mixin({
+			accuracy: Ti.Geolocation.ACCURACY_BEST,
+			parameters: {}
+		}, config, true);
+		
+		if (!config.parameters.center) {
+			if (!Ti.Geolocation.locationServicesEnabled) {
+				Ti.API.warn("[mixi] your device has geo turned off.");
+				tryCall(config.failure, {error: "Your device has geo turned off.", source: self});
+				return;
+			}
+			
+			if (Ti.Platform.osname != "android") {
+				switch (Ti.Geolocation.locationServicesAuthorization) {
+					case Ti.Geolocation.AUTHORIZATION_DENIED:
+						Ti.API.warn("[mixi] you have disallowed Titanium from running geolocation services.");
+						tryCall(config.failure, {error: "You have disallowed Titanium from running geolocation services.", source: self});
+						return;
+					case Ti.Geolocation.AUTHORIZATION_RESTRICTED:
+						Ti.API.warn("[mixi] your system has disallowed Titanium from running geolocation services.");
+						tryCall(config.failure, {error: "Your system has disallowed Titanium from running geolocation services.", source: self});
+						return;
+				}
+			}
+			
+			Ti.Geolocation.accuracy = config.accuracy;
+			Ti.Geolocation.getCurrentPosition(function(event){
+				if (!event.success || event.error) {
+					tryCall(config,failure, event);
+					return;
+				}
+				
+				Ti.API.debug(String.format("[mixi] getting current position succeeded. (%f, %f)",
+					event.coords.latitude, event.coords.longitude));
+				
+				config.parameters.center = [event.coords.latitude, event.coords.longitude];
+				self.searchSpot(config);
+			});
+			
+			return;
+		}
+		
+		var url = "http://api.mixi-platform.com/2/search/spots";
+		self.callApi("GET", url, config);
+	};
+	
 	this.peopleImages = function(config) {
 		config = mixin({userId: "@me", imageId: ""}, config, true);
 		var url = String.format("http://api.mixi-platform.com/2/people/images/%s/@self/%s", config.userId, config.imageId);

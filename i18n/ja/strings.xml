@@ -36,4 +36,6 @@
 	<string name="may_i_upload">アップロードしてよろしいですか？</string>
 	<string name="upload">アップロード</string>
 	<string name="cancel">キャンセル</string>
+	<string name="checkin_api">Check-in API</string>
+	<string name="search_spot">マイスポット検索</string>
 </resources>

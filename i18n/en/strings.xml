@@ -36,4 +36,6 @@
 	<string name="may_i_upload">Upload photo</string>
 	<string name="upload">Upload</string>
 	<string name="cancel">Cancel</string>
+	<string name="checkin_api">Check-in API</string>
+	<string name="search_spot">Search my spot</string>
 </resources>
