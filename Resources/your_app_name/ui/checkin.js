@@ -15,7 +15,7 @@
 			title: L("search_spot")
 		}, $$.button));
 		search.addEventListener('click', function(){
-			mixi.graphApi.searchSpot({
+			mixi.graphApi.searchSpots({
 				parameters: {fields: ['name', 'address.geohash']},
 				success: function(json){
 					alert(JSON.stringify(json));

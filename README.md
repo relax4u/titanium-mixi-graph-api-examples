@@ -138,7 +138,11 @@ APIによってはパラメータを指定することもあります。その�
 
 ### Check-in API
 
-* searchSpot()
+* spots()
+* searchSpots()
+* spot({spotId: "spotId"})
+* spotsCrete({parameters: {name: "spot name", description: "my spot"})
+* spotsDestroy({spotId: "spotId"})
 
 ### Profile Image API
 
