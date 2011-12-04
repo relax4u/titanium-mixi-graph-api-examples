@@ -336,6 +336,72 @@ var GraphApi = function(params) {
 		self.callApi("DELETE", url, config);
 	};
 	
+	this.checkins = function(config) {
+		config = mixin({userId: "@me", groupId: "@self"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/checkins/%s/%s", config.userId, config.groupId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.checkin = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/checkins/%s/@self/%s", config.userId, config.checkinId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.checkinsCreate = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/checkins/%s/@self/%s", config.userId, config.checkinId);
+		self.callApi("POST", url, config);
+	};
+	
+	this.checkinsDestroy = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/checkins/%s/@self/%s", config.userId, config.checkinId);
+		self.callApi("DELETE", url, config);
+	};
+	
+	this.checkinComments = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/checkins/comments/%s/@self/%s",
+			config.userId, config.checkinId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.checkinCommentsCreate = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/checkins/comments/%s/@self/%s",
+			config.userId, config.checkinId);
+		self.callApi("POST", url, mixin({type: "json"}, config));
+	};
+	
+	this.checkinCommentsDestroy = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/checkins/comments/%s/@self/%s/%s",
+			config.userId, config.checkinId, config.commentId);
+		self.callApi("DELETE", url, config);
+	};
+	
+	this.checkinFavorites = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/checkins/favorites/%s/@self/%s",
+			config.userId, config.checkinId);
+		self.callApi("GET", url, config);
+	};
+	
+	this.checkinFavoritesCreate = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/checkins/favorites/%s/@self/%s",
+			config.userId, config.checkinId);
+		self.callApi("POST", url, mixin({type: "json"}, config));
+	};
+	
+	this.checkinFavoritesDestroy = function(config) {
+		config = mixin({userId: "@me"}, config, true);
+		var url = String.format("http://api.mixi-platform.com/2/checkins/favorites/[User-ID]/@self/[Checkin-ID]/[Favorite-User-ID]",
+			config.userId, config.checkinId, config.favoriteUserId);
+		self.callApi("DELETE", url, config);
+	};
+	
 	this.peopleImages = function(config) {
 		config = mixin({userId: "@me", imageId: ""}, config, true);
 		var url = String.format("http://api.mixi-platform.com/2/people/images/%s/@self/%s", config.userId, config.imageId);

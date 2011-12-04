@@ -143,6 +143,16 @@ APIによってはパラメータを指定することもあります。その�
 * spot({spotId: "spotId"})
 * spotsCrete({parameters: {name: "spot name", description: "my spot"})
 * spotsDestroy({spotId: "spotId"})
+* checkins()
+* checkin({spotId: "spotId"})
+* checkinsCreate({spotId: "spotId"})
+* checkinsDestroy({spotID: "spotId", checkinId: "checkinId"})
+* checkinComments({spotId: "spotId", checkinId: "checkinId"})
+* checkinCommentsCreate({spotId: "spotId", checkinId: "checkinId", parameters: {text: "comment"}})
+* checkinCommentsDestroy({spotId: "spotId", checkinId: "checkinId", commentId: "commentId"})
+* checkinFavorites({spotId: "spotId", checkinId: "checkId"})
+* checkinFavoritesCreate({spotId: "spotId", checkinId: "checkinId"})
+* checkinFavoritesDestroy({spotId: "spotId", checkinId: "checkinId", favoriteUserId: "favoriteUserId"})
 
 ### Profile Image API
 
