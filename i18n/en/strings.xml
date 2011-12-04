@@ -38,4 +38,8 @@
 	<string name="cancel">Cancel</string>
 	<string name="checkin_api">Check-in API</string>
 	<string name="search_spot">Search my spot</string>
+	<string name="add_spot">Add my spot</string>
+	<string name="test_spot">Test spot</string>
+	<string name="please_input_spot">Please input spot</string>
+	<string name="this_is_test">This is test.</string>
 </resources>

@@ -2,7 +2,7 @@
 	// for iphone style.
 	$$.textArea = {
 		top: 20,
-		width: 280, height: 100,
+		width: 300, height: 100,
 		borderColor: "#999",
 		borderRadius: 5,
 		font: {fontSize: 15}
@@ -12,8 +12,7 @@
 		top: 20,
 		width: 300,
 		height: 40,
-		borderRadius: 5,
-		borderColor: '#999'
+		borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
 	}
 	
 	$$.button = {
