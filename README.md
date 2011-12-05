@@ -4,6 +4,7 @@ Titanium Mobile用のmixi Graph APIモジュールです。
 
 * APIを呼び出した際に、未認証の場合は自動的に認証画面が先に開きます。 (OFFにすることも可能です。
 * 認証後のaccessTokenの再取得などは自動で行います。
+* 一部のAPIはAndroidでは機能しません。
 * 絵文字は未対応です。
 
 ## initialize
@@ -92,7 +93,7 @@ APIによってはパラメータを指定することもあります。その�
 * voiceStatuses({postId: "postId"})
 * voiceReplies({postId: "postId"})
 * voiceFavorites({postId: "postId"})
-* voiceStatusesUpdate({parameters: {status: "message", image: Ti.Blob})
+* voiceStatusesUpdate({parameters: {status: "message", photo: Ti.Blob})
 * voiceStatusesDestroy({postId: "postId"})
 * voiceRepliesCreate({postId: "postId", parameters: {text: "comment"}})
 * voiceRepliesDestroy({postId: "postId", commentId: "commentId"})
@@ -116,7 +117,7 @@ APIによってはパラメータを指定することもあります。その�
 * photoAlbumsDestroy({albumId: "albumId"})
 * photoAlbumCommentsCreate({albumId: "albumId", parameters: {text: "comment"}})
 * photoAlbumCommentsDestroy({albumId: "albumId", commentId: "commentId")
-* photoMediaItemsCreate({albumId: "albumId", parameters: {title: "photo title", image: Ti.Blob}})
+* photoMediaItemsCreate({albumId: "albumId", parameters: {title: "photo title", image: Ti.Blob}}) ※iOSのみ
 * photoMediaItemsDestroy({albumId: "alubmId", mediaItemId: "mediaItemId"})
 * photoMediaItemCommentsCreate({albumId: "albumId", mediaItemId: "mediaItemId", parameters: {text: "comment"}})
 * photoMediaItemCommentsDestroy({albumId: "albumId", mediaItemId: "mediaItemId", commentId: "commentId"})
@@ -171,7 +172,7 @@ APIによってはパラメータを指定することもあります。その�
 ### Profile Image API
 
 * peopleImages()
-* peopleImagesCreate({parameters: {image: Ti.Blob, privacy: "everyone"}})
+* peopleImagesCreate({parameters: {image: Ti.Blob, privacy: "everyone"}}) ※iOSのみ
 * peopleImagesUpdate({imageId: "imageId", parameters: {primary: true, privacy: "everyone"}})
 * peopleImagesDestroy({imageId: "imageId"})
 
@@ -179,7 +180,7 @@ APIによってはパラメータを指定することもあります。その�
 
 実装されていないAPIなどは、こちらを利用することで呼び出すことが可能です。
 
-    api.callApi("GET", "http://example.com/api_uri", {
+    api.callApi("GET", "hoge/@me/@self", {
         parameters: {foo: "bar"},
         success: function(json){
         },
