@@ -134,7 +134,21 @@ APIによってはパラメータを指定することもあります。その�
 
 ### Dialy API
 
-現在は対応していません。
+* dialyCreate({parameters: {title: "title", body:"body", privacy: {visibility: "self"}}})  ※iOSのみ
+
+`dialyCreate()`は、画像も投稿できますが、APIの仕様上jpegのみです。写真などはjpegに変換する必要があります。
+
+    api.dialyCreate({
+        parameters: {
+            title: "title",
+            body: "this is test",
+            privacy: {
+                visibility: "self",
+                show_user: 0
+            },
+            images: [{Ti.Blob}, {Ti.Blob}, {Ti.Blob}]
+        }
+    });
 
 ### Check-in API
 
