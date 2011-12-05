@@ -62,6 +62,7 @@
 				{title: L("voice_api"), ui: "voice", hasChild: true},
 				{title: L("check_api"), ui: "check", hasChild: true},
 				{title: L("photo_api"), ui: "photo", hasChild: true},
+				{title: L("dialy_api"), ui: "dialy", hasChild: true},
 				{title: L("checkin_api"), ui: "checkin", hasChild: true}
 			]
 		});
@@ -84,5 +85,6 @@ Ti.include(
 	"/your_app_name/ui/voice.js",
 	"/your_app_name/ui/check.js",
 	"/your_app_name/ui/photo.js",
+	"/your_app_name/ui/dialy.js",
 	"/your_app_name/ui/checkin.js"
 );

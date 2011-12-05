@@ -36,6 +36,9 @@
 	<string name="may_i_upload">アップロードしてよろしいですか？</string>
 	<string name="upload">アップロード</string>
 	<string name="cancel">キャンセル</string>
+	<string name="dialy_api">Dialy API</string>
+	<string name="please_input_title">タイトルを入力してください。</string>
+	<string name="post_dialy">投稿する</string>
 	<string name="checkin_api">Check-in API</string>
 	<string name="search_spot">マイスポット検索</string>
 	<string name="add_spot">マイスポット作成</string>

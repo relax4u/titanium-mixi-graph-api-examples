@@ -281,6 +281,48 @@ var GraphApi = function(params) {
 		self.callApi("DELETE", url, config);
 	};
 	
+	this.dialyCreate = function(config) {
+		config = mixin({parameters: {}}, config, true);
+		
+		var images = config.parameters.images || [];
+		delete config.parameters.images;
+		
+		if (images.length > 0) {
+			var boundary = '--1234567890';
+			
+			var filename = String.format("%d-%d.dat", (new Date).getTime(), parseInt(Math.random() * 1000));
+			var body = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename);
+			
+			body.write(String.format("--%s\r\n", boundary), true);
+			body.write(String.format("Content-Disposition: form-data; name=\"%s\";\r\n", "request"), true);
+			body.write("\r\n", true);
+			body.write(JSON.stringify(config.parameters), true);
+			body.write("\r\n", true);
+			
+			for (var i = 0; i < images.length; i++) {
+				var object = images[i];
+				body.write(String.format("--%s\r\n", boundary), true);
+				body.write(String.format("Content-Disposition: form-data; name=\"photo%d\"; filename=\"photo%d.jpg\"\r\n", i + 1, i + 1), true);
+				body.write("Content-Type: image/jpeg\r\n", true);
+				body.write("\r\n", true);
+				body.write(object, true);
+				body.write("\r\n", true);
+			}
+			
+			body.write(String.format("--%s--\r\n", boundary), true);
+			
+			var body = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename);
+			
+			config.contentType = String.format("multipart/form-data; boundary=%s;", boundary);
+			config.parameters = body.read();
+		} else {
+			config.type = "json";
+		}
+		
+		var url = "http://api.mixi-platform.com/2/diary/articles/@me/@self";
+		self.callApi("POST", url, config);
+	};
+	
 	this.spot = function(config) {
 		var url = String.format("http://api.mixi-platform.com/2/spots/%s", config.spotId);
 		self.callApi("GET", url, config);
