@@ -45,4 +45,8 @@
 	<string name="test_spot">テストスポット</string>
 	<string name="please_input_spot">スポット名を入力してください</string>
 	<string name="this_is_test">これはテストです。</string>
+	<string name="loading">読み込み中...</string>
+	<string name="uploading">アップロード中...</string>
+	<string name="iphone_is_not_supported">iPhoneではサポートされていません</string>
+	<string name="unknown_error">エラーが発生しました</string>
 </resources>

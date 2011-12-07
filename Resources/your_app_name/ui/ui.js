@@ -74,6 +74,35 @@
 		
 		return win;
 	};
+	
+	your_namespace.ui.createIndicator = function(config) {
+		var options = $.merge($$.indicator);
+		
+		$.androidOnly(function(){
+			options = $.mixin(options, config, true);
+		});
+		
+		return Ti.UI.createActivityIndicator($$.indicator);
+	};
+	
+	your_namespace.ui.createDarkIndicator = function(config) {
+		var indicator = your_namespace.ui.createIndicator(config);
+		
+		return $.osEach({
+			iphone: function(){
+				var view = Ti.UI.createView({
+					backgroundColor: "#000",
+					opacity: 0.5,
+					zIndex: 1000
+				});
+				view.add(indicator);
+				indicator.show();
+				
+				return view;
+			},
+			android: indicator
+		});
+	};
 })();
 
 Ti.include(

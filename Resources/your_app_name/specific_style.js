@@ -27,4 +27,23 @@
 		width: 'auto',
 		height: 'auto'
 	};
+	
+	$$.indicator = {
+		style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
+	};
+	
+	$$.peopleTableRow = {
+		height: 70
+	};
+	
+	$$.thumbnail = {
+		width: 50,
+		height: 50,
+		borderRadius: 5,
+		hires: true
+	};
+	
+	$$.peopleTableRowThumbnail = $.merge($$.thumbnail, {left: 10});
+	$$.peopleTableRowName = $.merge($$.label, {left: 70, textAlign: 'left'}, true);
+	
 })();

@@ -3,9 +3,13 @@
 	
 	your_namespace.ui.dialy.createWindow = function() {
 		var win = Ti.UI.createWindow($.mixin({
-			title: L("dialy_api"),
-			layout: 'vertical'
+			title: L("dialy_api")
 		}, $$.window));
+		
+		var view = Ti.UI.createView({
+			layout: 'vertical'
+		});
+		win.add(view);
 		
 		var title = Ti.UI.createTextField($.mixin({
 			hintText: L("please_input_title"),
@@ -16,28 +20,70 @@
 			value: L("this_is_test")
 		}, $$.textArea));
 		
-		var button = Ti.UI.createButton($.mixin({
-			title: L("post_dialy")
+		var photos = [];
+		
+		var photoButton = Ti.UI.createButton($.mixin({
+			title: L("add_photo")
 		}, $$.button));
-		button.addEventListener('click', function(){
-			mixi.graphApi.dialyCreate({
-				parameters: {
-					title: title.value,
-					body: body.value,
-					privacy: {
-						visibility: "self",
-						show_users: 0
-					}
+		photoButton.addEventListener('click', function(){
+			$.osEach({
+				iphone: function(){
+					alert(L("iphone_is_not_supported"));
 				},
-				success: function(json) {
-					alert(JSON.stringify(json));
+				android: function(){
+					Ti.Media.showCamera({
+						success: function(e){
+							photos.push(e.media);
+						},
+						error: function(){
+							alert(L("unknown_error"));
+						},
+						mediaTypes: [Ti.Media.MEDIA_TYPE_PHOTO]
+					});
 				}
 			});
 		});
 		
-		win.add(title);
-		win.add(body);
-		win.add(button);
+		var button = Ti.UI.createButton($.mixin({
+			title: L("post_dialy")
+		}, $$.button));
+		button.addEventListener('click', function(){
+			var parameters = {
+				title: title.value,
+				body: body.value,
+				privacy: {
+					visibility: "self",
+					show_users: 0
+				}
+			};
+			
+			if (photos.length > 0) {
+				parameters.photos = photos;
+			}
+			
+			var indicator = your_namespace.ui.createDarkIndicator({
+				message: L("uploading")
+			});
+			win.add(indicator);
+			indicator.show();
+			
+			mixi.graphApi.dialyCreate({
+				parameters: parameters,
+				success: function(json) {
+					indicator.hide();
+					alert(JSON.stringify(json));
+				},
+				failure: function(e) {
+					indicator.hide();
+					alert(JSON.stringify(e));
+				}
+			});
+		});
+		
+		view.add(title);
+		view.add(body);
+		view.add(photoButton);
+		view.add(button);
 		
 		return win;
 	};

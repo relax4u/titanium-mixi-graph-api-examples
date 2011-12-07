@@ -34,4 +34,25 @@
 		width: 'auto',
 		height: 'auto'
 	};
+	
+	$$.indicator = {
+		font: {fontSize: '20dp', fontFamily: 'Helvetica Neue'},
+		width: 'auto',
+		height: 'auto',
+		color: "#fff",
+		message: L("loading")
+	};
+	
+	$$.peopleTableRow = {
+		height: '70dp'
+	};
+	
+	$$.thumbnail = {
+		width: '50dp',
+		height: '50dp',
+		borderRadius: 20
+	};
+	
+	$$.peopleTableRowThumbnail = $.merge($$.thumbnail, {left: '10dp'});
+	$$.peopleTableRowName = $.merge($$.label, {left: '70dp', textAlign: 'left'}, true);
 })();

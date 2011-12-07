@@ -292,7 +292,7 @@ var GraphApi = function(params) {
 				request: JSON.stringify(config.parameters)
 			};
 			
-			for (var i = 0; i < photos.length; i++) {
+			for (var i = 0; i < (photos.length < 3 ? photos.length : 3); i++) {
 				config.parameters[String.format("photo%d", i + 1)] = photos[i];
 			}
 		} else {
