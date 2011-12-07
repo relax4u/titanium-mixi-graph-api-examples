@@ -284,37 +284,17 @@ var GraphApi = function(params) {
 	this.dialyCreate = function(config) {
 		config = mixin({parameters: {}}, config, true);
 		
-		var images = config.parameters.images || [];
-		delete config.parameters.images;
+		var photos = config.parameters.photos || [];
+		delete config.parameters.photos;
 		
-		if (images.length > 0) {
-			var boundary = '--1234567890';
+		if (photos.length > 0) {
+			config.parameters = {
+				request: JSON.stringify(config.parameters)
+			};
 			
-			var filename = String.format("%d-%d.dat", (new Date).getTime(), parseInt(Math.random() * 1000));
-			var body = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename);
-			
-			body.write(String.format("--%s\r\n", boundary), true);
-			body.write(String.format("Content-Disposition: form-data; name=\"%s\";\r\n", "request"), true);
-			body.write("\r\n", true);
-			body.write(JSON.stringify(config.parameters), true);
-			body.write("\r\n", true);
-			
-			for (var i = 0; i < images.length; i++) {
-				var object = images[i];
-				body.write(String.format("--%s\r\n", boundary), true);
-				body.write(String.format("Content-Disposition: form-data; name=\"photo%d\"; filename=\"photo%d.jpg\"\r\n", i + 1, i + 1), true);
-				body.write("Content-Type: image/jpeg\r\n", true);
-				body.write("\r\n", true);
-				body.write(object, true);
-				body.write("\r\n", true);
+			for (var i = 0; i < photos.length; i++) {
+				config.parameters[String.format("photo%d", i + 1)] = photos[i];
 			}
-			
-			body.write(String.format("--%s--\r\n", boundary), true);
-			
-			var body = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename);
-			
-			config.contentType = String.format("multipart/form-data; boundary=%s;", boundary);
-			config.parameters = body.read();
 		} else {
 			config.type = "json";
 		}
