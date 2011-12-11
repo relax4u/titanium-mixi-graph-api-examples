@@ -43,6 +43,8 @@
 	<string name="may_i_upload">Upload photo</string>
 	<string name="upload">Upload</string>
 	<string name="cancel">Cancel</string>
+	<string name="comments">Comments</string>
+	<string name="favorites">Favorites</string>
 	<string name="dialy_api">Dialy API</string>
 	<string name="please_input_title">Please input title</string>
 	<string name="post_dialy">Post dialy</string>

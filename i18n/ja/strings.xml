@@ -43,6 +43,8 @@
 	<string name="may_i_upload">アップロードしてよろしいですか？</string>
 	<string name="upload">アップロード</string>
 	<string name="cancel">キャンセル</string>
+	<string name="comments">コメント一覧</string>
+	<string name="favorites">いいね一覧</string>
 	<string name="dialy_api">Dialy API</string>
 	<string name="please_input_title">タイトルを入力してください。</string>
 	<string name="post_dialy">投稿する</string>

@@ -68,4 +68,36 @@
 		touchEnabled : true,
 		hasChild: true
 	}, true);
+	
+	// for Photo list
+	$$.photoTableRow = {
+		height: '100dp',
+		touchEnabled : false,
+		selectionStyle : Ti.UI.iPhone.TableViewCellSelectionStyle.NONE
+	};
+	
+	$$.photoThumbnail = {
+		height: '80dp', width: '80dp',
+		top: '10dp', left: '10dp'
+	};
+	
+	$$.photoTableRowLabel = $.merge($$.label, {top: '10dp', left: '120dp', textAlign: 'left'}, true);
+	
+	$$.photoTableRowButton = {
+		width: '80dp',
+		height: '20dp',
+		font: {fontSize: '10dp', fontFamily: 'Helvetica Neue'}
+	};
+	
+	$$.photoTableRowCommentsButton = $.merge({
+		title: L("comments"),
+		bottom: '10dp',
+		right: '10dp'
+	}, $$.photoTableRowButton);
+	
+	$$.photoTableRowFavoritesButton = $.merge({
+		title: L("favorites"),
+		bottom: '40dp',
+		right: '10dp'
+	}, $$.photoTableRowButton);
 })();

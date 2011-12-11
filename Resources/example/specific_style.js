@@ -59,4 +59,37 @@
 		selectionStyle : Ti.UI.iPhone.TableViewCellSelectionStyle.BLUE,
 		hasChild: true
 	}, true);
+	
+	
+	// for Photo list
+	$$.photoTableRow = {
+		height: 120,
+		touchEnabled : false,
+		selectionStyle : Ti.UI.iPhone.TableViewCellSelectionStyle.NONE
+	};
+	
+	$$.photoThumbnail = {
+		height: 100, width: 100,
+		top: 10, left: 10,
+	};
+	
+	$$.photoTableRowLabel = $.merge($$.label, {top: 10, left: 120, textAlign: 'left'}, true);
+	
+	$$.photoTableRowButton = {
+		width: 80,
+		height: 20,
+		font: {fontSize: 10, fontFamily: 'Helvetica Neue'}
+	};
+	
+	$$.photoTableRowCommentsButton = $.merge({
+		title: L("comments"),
+		bottom: 10,
+		right: 10
+	}, $$.photoTableRowButton);
+	
+	$$.photoTableRowFavoritesButton = $.merge({
+		title: L("favorites"),
+		bottom: 10,
+		right: 100
+	}, $$.photoTableRowButton);
 })();

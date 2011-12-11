@@ -11,11 +11,13 @@
 			title: L("album_list")
 		}, $$.button));
 		albums.addEventListener('click', function(){
-			mixi.graphApi.photoAlbums({
-				success: function(json){
-					alert(json);
-				}
+			var win = ex.ui.photo.createAlbumListWindow(function(album){
+				ex.ui.open(ex.ui.photo.createMediaItemListWindow({
+					title: album.title,
+					albumId: album.albumId
+				}));
 			});
+			ex.ui.open(win);
 		});
 		
 		var addAlbum = Ti.UI.createButton($.mixin({
@@ -82,29 +84,90 @@
 		});
 	};
 	
+	
 	ex.ui.photo.createAlbumListWindow = function(callback) {
 		var win = Ti.UI.createWindow($.mixin({
 			title: L('select_album')
 		}, $$.window));
 		
-		var tableView = Ti.UI.createTableView();
-		tableView.addEventListener('click', function(e){
-			callback(e.rowData);
-		});
-		
-		mixi.graphApi.photoAlbums({
-			success: function(json) {
-				for (var i = 0; i < json.entry.length; i++) {
-					tableView.appendRow({
-						title: json.entry[i].title,
-						albumId: json.entry[i].id
-					});
+		win.addEventListener('open', function(){
+			var tableView = Ti.UI.createTableView();
+			tableView.addEventListener('click', function(e){
+				callback(e.rowData);
+			});
+			win.add(tableView);
+			
+			var indicator = ex.ui.createIndicator();
+			win.add(indicator);
+			indicator.show();
+			
+			mixi.graphApi.photoAlbums({
+				success: function(json) {
+					for (var i = 0; i < json.entry.length; i++) {
+						tableView.appendRow({
+							title: json.entry[i].title,
+							albumId: json.entry[i].id
+						});
+					}
+					indicator.hide();
+				},
+				failure: function(e){
+					indicator.hide();
+					alert(e.error);
 				}
-			},
-			autoAuthorize: false
+			});
 		});
 		
-		win.add(tableView);
+		return win;
+	};
+	
+	ex.ui.photo.createMediaItemListWindow = function(config){
+		var win = Ti.UI.createWindow($.mixin({
+			title: config.title || L('select_album')
+		}, $$.window));
+		
+		win.addEventListener('open', function(){
+			var tableView = Ti.UI.createTableView();
+			win.add(tableView);
+			
+			var indicator = ex.ui.createIndicator();
+			win.add(indicator);
+			indicator.show();
+			
+			mixi.graphApi.photoMediaItems({
+				albumId: config.albumId,
+				success: function(json){
+					
+					for (var i = 0; i < json.entry.length; i++) {
+						var photo = json.entry[i];
+						
+						var row = Ti.UI.createTableViewRow($$.photoTableRow);
+						
+						row.add(Ti.UI.createImageView($.mixin({
+							image: photo.thumbnailUrl
+						}, $$.photoThumbnail)));
+						
+						row.add(Ti.UI.createLabel($.mixin({
+							text: photo.title
+						}, $$.photoTableRowLabel)))
+						
+						var commentsButton = Ti.UI.createButton($$.photoTableRowCommentsButton);
+						row.add(commentsButton);
+						
+						var favoritesButton = Ti.UI.createButton($$.photoTableRowFavoritesButton);
+						row.add(favoritesButton);
+						
+						tableView.appendRow(row);
+					}
+					
+					indicator.hide();
+				},
+				failure: function(e){
+					indicator.hide();
+					alert(e.error);
+				}
+			});
+		});
 		
 		return win;
 	};
