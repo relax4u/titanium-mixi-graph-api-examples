@@ -43,16 +43,28 @@
 		message: L("loading")
 	};
 	
-	$$.peopleTableRow = {
-		height: '70dp'
-	};
-	
 	$$.thumbnail = {
 		width: '50dp',
 		height: '50dp',
-		borderRadius: 20
+		borderRadius: 5,
+		hires: true
 	};
 	
+	// for People details
+	$$.peopleTableRow = {
+		height: 'auto',
+		touchEnabled : false
+	};	
+	$$.peopleTableRowDisplayName = $.merge($$.peopleTableRow, {height: '70dp'}, true);
 	$$.peopleTableRowThumbnail = $.merge($$.thumbnail, {left: '10dp'});
 	$$.peopleTableRowName = $.merge($$.label, {left: '70dp', textAlign: 'left'}, true);
+	
+	$$.peopleTableRowLabel = $.merge($$.label, {left: '10dp', textAlign: 'left'}, true);
+	
+	// for Friend list
+	$$.peopleTableRowFriendList = $.merge($$.peopleTableRow, {
+		height: '70dp',
+		touchEnabled : true,
+		hasChild: true
+	}, true);
 })();

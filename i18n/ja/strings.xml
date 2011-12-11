@@ -7,6 +7,13 @@
 	<string name="my_profile">自分のプロフィール</string>
 	<string name="friend_list">友達一覧</string>
 	<string name="friend_birthday">友人の誕生日(カスタム)</string>
+	<string name="display_name">名前</string>
+	<string name="about_me">詳細</string>
+	<string name="sex">性別</string>
+	<string name="male">男性</string>
+	<string name="female">女性</string>
+	<string name="birthday">誕生日</string>
+	<string name="interests">興味</string>
 	<string name="groups_api">Groups API</string>
 	<string name="group_list">グループ一覧</string>
 	<string name="people_lookup_api">People lookup API</string>
@@ -49,4 +56,5 @@
 	<string name="uploading">アップロード中...</string>
 	<string name="iphone_is_not_supported">iPhoneではサポートされていません</string>
 	<string name="unknown_error">エラーが発生しました</string>
+	<string name="unknown">不明</string>
 </resources>

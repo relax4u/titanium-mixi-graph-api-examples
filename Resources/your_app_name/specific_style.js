@@ -32,10 +32,6 @@
 		style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
 	};
 	
-	$$.peopleTableRow = {
-		height: 70
-	};
-	
 	$$.thumbnail = {
 		width: 50,
 		height: 50,
@@ -43,7 +39,24 @@
 		hires: true
 	};
 	
+	// for People details
+	$$.peopleTableRow = {
+		height: 'auto',
+		touchEnabled : false,
+		selectionStyle : Ti.UI.iPhone.TableViewCellSelectionStyle.NONE
+	};
+	
+	$$.peopleTableRowDisplayName = $.merge($$.peopleTableRow, {height: 70}, true);
 	$$.peopleTableRowThumbnail = $.merge($$.thumbnail, {left: 10});
 	$$.peopleTableRowName = $.merge($$.label, {left: 70, textAlign: 'left'}, true);
 	
+	$$.peopleTableRowLabel = $.merge($$.label, {left: 10, textAlign: 'left'}, true);
+	
+	// for Friend list
+	$$.peopleTableRowFriendList = $.merge($$.peopleTableRow, {
+		height: 70,
+		touchEnabled : true,
+		selectionStyle : Ti.UI.iPhone.TableViewCellSelectionStyle.BLUE,
+		hasChild: true
+	}, true);
 })();
