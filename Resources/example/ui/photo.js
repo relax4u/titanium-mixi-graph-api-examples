@@ -76,7 +76,20 @@
 		ex.ui.setAddButton(win, _openForm);
 		
 		var _init = function(){
-			var tableView = Ti.UI.createTableView();
+			var tableView = Ti.UI.createTableView({
+				editable: true
+			});
+			tableView.addEventListener('delete', function(e){
+				mixi.graphApi.photoAlbumsDestroy({
+					albumId: e.rowData.albumId,
+					success: function(json){
+						alert(json);
+					},
+					failure: function(e){
+						alert(e.error);
+					}
+				});
+			});
 			tableView.addEventListener('click', function(e){
 				switch(e.source.type) {
 					case "comments":
@@ -119,20 +132,11 @@
 							commentsButton.addEventListener('click', function(){
 								var win = ex.ui.photo.createCommentListWindow({
 									title: L("comments"),
-									api: mixi.graphApi.photoAlbumComments,
+									indexApi: mixi.graphApi.photoAlbumComments,
+									createApi: mixi.graphApi.photoAlbumCommentsCreate,
+									deleteApi: mixi.graphApi.photoAlbumCommentsDestroy,
 									albumId: album.id
 								});
-								
-								var _openForm = function(){
-									var form = ex.ui.photo.createCommentForm({
-										list: win,
-										api: mixi.graphApi.photoAlbumCommentsCreate,
-										albumId: album.id
-									});
-									form.open({modal: true});
-								};
-								ex.ui.setAddButton(win, _openForm);
-								
 								ex.ui.open(win);
 							});
 							row.add(commentsButton);
@@ -236,7 +240,21 @@
 		});
 		
 		var _init = function(){
-			var tableView = Ti.UI.createTableView();
+			var tableView = Ti.UI.createTableView({
+				editable: true
+			});
+			tableView.addEventListener('delete', function(e){
+				mixi.graphApi.photoMediaItemsDestroy({
+					albumId: e.rowData.albumId,
+					mediaItemId: e.rowData.mediaItemId,
+					success: function(json){
+						alert(json);
+					},
+					failure: function(e){
+						alert(e.error);
+					}
+				});
+			});
 			win.add(tableView);
 			
 			win.addEventListener('reload', function(){
@@ -267,27 +285,25 @@
 							commentsButton.addEventListener('click', function(){
 								var win = ex.ui.photo.createCommentListWindow({
 									title: L("comments"),
-									api: mixi.graphApi.photoMediaItemComments,
+									indexApi: mixi.graphApi.photoMediaItemComments,
+									createApi: mixi.graphApi.photoMediaItemCommentsCreate,
+									deleteApi: mixi.graphApi.photoMediaItemCommentsDestroy,
 									albumId: photo.albumId,
 									mediaItemId: photo.id
 								});
-								
-								var _openForm = function() {
-									var form = ex.ui.photo.createCommentForm({
-										list: win,
-										api: mixi.graphApi.photoMediaItemCommentsCreate,
-										albumId: photo.albumId,
-										mediaItemId: photo.id
-									});
-									form.open({modal: true});
-								};
-								ex.ui.setAddButton(win, _openForm);
-								
 								ex.ui.open(win);
 							});
 							row.add(commentsButton);
 							
 							var favoritesButton = Ti.UI.createButton($$.photoTableRowFavoritesButton);
+							favoritesButton.addEventListener('click', function(){
+								var win = ex.ui.photo.createFavoritesWindow({
+									title: L("favorites"),
+									albumId: photo.albumId,
+									mediaItemId: photo.id
+								});
+								ex.ui.open(win);
+							});
 							row.add(favoritesButton);
 							
 							tableView.appendRow(row);
@@ -319,8 +335,34 @@
 			title: config.title || L('comments')
 		}, $$.window));
 		
+		var _openForm = function(){
+			var form = ex.ui.photo.createCommentForm({
+				list: win,
+				api: config.createApi,
+				albumId: config.albumId,
+				mediaItemId: config.mediaItemId
+			});
+			form.open({modal: true});
+		};
+		ex.ui.setAddButton(win, _openForm);
+		
 		var _init = function(){
-			var tableView = Ti.UI.createTableView();
+			var tableView = Ti.UI.createTableView({
+				editable: true
+			});
+			tableView.addEventListener('delete', function(e){
+				config.deleteApi({
+					albumId: config.albumId,
+					mediaItemId: config.mediaItemId,
+					commentId: e.rowData.commentId,
+					success: function(json) {
+						alert(json);
+					},
+					failure: function(e) {
+						alert(e.error);
+					}
+				});
+			})
 			win.add(tableView);
 			
 			win.addEventListener('reload', function(){
@@ -330,7 +372,7 @@
 				win.add(indicator);
 				indicator.show();
 				
-				config.api({
+				config.indexApi({
 					albumId: config.albumId,
 					mediaItemId: config.mediaItemId,
 					success: function(json) {
@@ -347,6 +389,109 @@
 				});
 			});
 			
+			win.fireEvent('reload');
+		};
+		
+		$.osEach({
+			iphone: _init,
+			android: function(){
+				win.addEventListener('open', _init);
+			}
+		});
+		
+		return win;
+	};
+	
+	ex.ui.photo.createFavoritesWindow = function(config) {
+		console.log(config);
+		var win = Ti.UI.createWindow($.mixin({
+			title: config.title || L('favorites')
+		}, $$.window));
+		
+		// var _like = function(){
+			// mixi.graphApi.photoMediaItemFavoritesCreate({
+				// albumId: config.albumId,
+				// mediaItemId: config.mediaItemId,
+				// success: function(json){
+					// alert(json);
+				// },
+				// failure: function(e){
+					// alert(e.error);
+				// }
+			// })
+		// };
+// 		
+		// $.osEach({
+			// iphone: function(){
+				// var addButton = Ti.UI.createButton({
+					// title: L("like")
+				// });
+				// addButton.addEventListener('click', _like);
+				// win.rightNavButton = addButton;
+			// },
+			// android: function(){
+				// win.activity.onCreateOptionsMenu = function(e){
+					// var menu = e.menu;
+					// var menuItem = menu.add({title: L('like')});
+					// menuItem.addEventListener('click', _like);
+				// };
+			// }
+		// });
+		
+		var _init = function(){
+			var tableView = Ti.UI.createTableView({
+				editable: true
+			});
+			tableView.addEventListener('delete', function(e){
+				mixi.graphApi.photoMediaItemFavoritesDestroy({
+					albumId: config.albumId,
+					mediaItemId: config.mediaItemId,
+					favoriteUserId: e.rowData.userId,
+					success: function(json){
+						alert(json);
+					},
+					failure: function(e){
+						alert(e.error);
+					}
+				});
+			});
+			win.add(tableView);
+			
+			win.addEventListener('reload', function(){
+				tableView.setData([]);
+				
+				var indicator = ex.ui.createIndicator();
+				win.add(indicator);
+				indicator.show();
+				
+				mixi.graphApi.photoMediaItemFavorites({
+					albumId: config.albumId,
+					mediaItemId: config.mediaItemId,
+					success: function(json){
+						json.entry.forEach(function(user){
+							var row = Ti.UI.createTableViewRow($.mixin({
+								userId: user.id,
+								displayName: user.displayName,
+							},$$.peopleTableRowFriendList));
+							
+							row.add(Ti.UI.createImageView($.mixin({
+								image: user.thumbnailUrl
+							}, $$.peopleTableRowThumbnail)));
+							
+							row.add(Ti.UI.createLabel($.mixin({
+								text: user.displayName
+							}, $$.peopleTableRowName)));
+							
+							tableView.appendRow(row);
+						});
+						indicator.hide();
+					},
+					failure: function(e){
+						indicator.hide();
+						alert(e.error);
+					}
+				});
+			});
 			win.fireEvent('reload');
 		};
 		
@@ -485,7 +630,9 @@
 	};
 	
 	function createCommentRow(comment) {
-		var row = Ti.UI.createTableViewRow($$.photoCommentTableRow);
+		var row = Ti.UI.createTableViewRow($.mixin({
+			commentId: comment.id
+		}, $$.photoCommentTableRow));
 		
 		row.add(Ti.UI.createImageView($.mixin({
 			image: comment.user.thumbnailUrl
