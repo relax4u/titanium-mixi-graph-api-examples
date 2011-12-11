@@ -49,7 +49,7 @@
 		win.add(addPhoto);
 		
 		return win;
-	}
+	};
 	
 	ex.ui.photo.addPhotoWindow = function() {
 		return ex.ui.photo.createAlbumListWindow(function(data){
@@ -90,7 +90,7 @@
 			title: L('select_album')
 		}, $$.window));
 		
-		win.addEventListener('open', function(){
+		var _init = function(){
 			var tableView = Ti.UI.createTableView();
 			tableView.addEventListener('click', function(e){
 				switch(e.source.type) {
@@ -125,11 +125,39 @@
 						
 						var commentsButton = Ti.UI.createButton($$.photoTableRowCommentsButton);
 						commentsButton.addEventListener('click', function(){
-							ex.ui.open(ex.ui.photo.createCommentListWindow({
+							var win = ex.ui.photo.createCommentListWindow({
 								title: L("comments"),
 								api: mixi.graphApi.photoAlbumComments,
 								albumId: album.id
-							}));
+							});
+							
+							var _openForm = function(){
+								var form = ex.ui.photo.createCommentForm({
+									list: win,
+									api: mixi.graphApi.photoAlbumCommentsCreate,
+									albumId: album.id
+								});
+								form.open({modal: true});
+							};
+							
+							$.osEach({
+								iphone: function(){
+									var addButton = Ti.UI.createButton({
+										title: L("add")
+									});
+									addButton.addEventListener('click', _openForm);
+									win.rightNavButton = addButton;
+								},
+								android: function(){
+									win.activity.onCreateOptionsMenu = function(e){
+										var menu = e.menu;
+										var menuItem = menu.add({title: L('add')});
+										menuItem.addEventListener('click', _openForm);
+									};
+								}
+							});
+							
+							ex.ui.open(win);
 						});
 						row.add(commentsButton);
 						
@@ -142,6 +170,13 @@
 					alert(e.error);
 				}
 			});
+		};
+		
+		$.osEach({
+			iphone: _init,
+			android: function(){
+				win.addEventListener('open', _init);
+			}
 		});
 		
 		return win;
@@ -152,7 +187,7 @@
 			title: config.title || L('select_album')
 		}, $$.window));
 		
-		win.addEventListener('open', function(){
+		var _init = function(){
 			var tableView = Ti.UI.createTableView();
 			win.add(tableView);
 			
@@ -179,12 +214,41 @@
 						
 						var commentsButton = Ti.UI.createButton($$.photoTableRowCommentsButton);
 						commentsButton.addEventListener('click', function(){
-							ex.ui.open(ex.ui.photo.createCommentListWindow({
+							var win = ex.ui.photo.createCommentListWindow({
 								title: L("comments"),
 								api: mixi.graphApi.photoMediaItemComments,
 								albumId: photo.albumId,
 								mediaItemId: photo.id
-							}));
+							});
+							
+							var _openForm = function() {
+								var form = ex.ui.photo.createCommentForm({
+									list: win,
+									api: mixi.graphApi.photoMediaItemCommentsCreate,
+									albumId: photo.albumId,
+									mediaItemId: photo.id
+								});
+								form.open({modal: true});
+							};
+							
+							$.osEach({
+								iphone: function(){
+									var addButton = Ti.UI.createButton({
+										title: L("add")
+									});
+									addButton.addEventListener('click', _openForm);
+									win.rightNavButton = addButton;
+								},
+								android: function(){
+									win.activity.onCreateOptionsMenu = function(e){
+										var menu = e.menu;
+										var menuItem = menu.add({title: L('add')});
+										menuItem.addEventListener('click', _openForm);
+									};
+								}
+							});
+							
+							ex.ui.open(win);
 						});
 						row.add(commentsButton);
 						
@@ -201,6 +265,13 @@
 					alert(e.error);
 				}
 			});
+		};
+		
+		$.osEach({
+			iphone: _init,
+			android: function(){
+				win.addEventListener('open', _init);
+			}
 		});
 		
 		return win;
@@ -208,26 +279,94 @@
 	
 	ex.ui.photo.createCommentListWindow = function(config){
 		var win = Ti.UI.createWindow($.mixin({
-			title: config.title || L('comment_list')
+			title: config.title || L('comments')
 		}, $$.window));
 		
-		win.addEventListener('open', function(){
+		var _init = function(){
 			var tableView = Ti.UI.createTableView();
 			win.add(tableView);
 			
-			var indicator = ex.ui.createIndicator();
+			win.addEventListener('reload', function(){
+				tableView.setData([]);
+				
+				var indicator = ex.ui.createIndicator();
+				win.add(indicator);
+				indicator.show();
+				
+				config.api({
+					albumId: config.albumId,
+					mediaItemId: config.mediaItemId,
+					success: function(json) {
+						for (var i = 0; i < json.entry.length; i++) {
+							tableView.appendRow(createCommentRow(json.entry[i]));
+						}
+						
+						indicator.hide();
+					},
+					failure: function(e) {
+						indicator.hide();
+						alert(e.error);
+					}
+				});
+			});
+			
+			win.fireEvent('reload');
+		};
+		
+		$.osEach({
+			iphone: _init,
+			android: function(){
+				win.addEventListener('open', _init);
+			}
+		});
+		
+		return win;
+	};
+	
+	ex.ui.photo.createCommentForm = function(config) {
+		var win = Ti.UI.createWindow($.mixin({
+			title: config.title || L('new_comment'),
+			layout: 'vertical'
+		}, $$.window));
+		
+		$.iphoneOnly(function(){
+			var button = Ti.UI.createButton({
+				systemButton: Ti.UI.iPhone.SystemButton.CANCEL
+			});
+			button.addEventListener('click', function(){
+				win.close();
+			});
+			win.leftNavButton = button;
+		});
+		
+		var textArea = Ti.UI.createTextArea($.mixin({
+			value: L('this_is_test')
+		}, $$.textArea, true));
+		
+		var button = Ti.UI.createButton($.mixin({
+			title: L('post_comment')
+		}, $$.button, true));
+		button.addEventListener('click', function(){
+			if (!$.isDefined(textArea.value)) {
+				alert(L('please_input_comment'));
+				return;
+			}
+			
+			var indicator = ex.ui.createDarkIndicator({
+				message: L("uploading")
+			});
 			win.add(indicator);
 			indicator.show();
 			
 			config.api({
 				albumId: config.albumId,
 				mediaItemId: config.mediaItemId,
+				parameters: {text: textArea.value},
 				success: function(json) {
-					for (var i = 0; i < json.entry.length; i++) {
-						tableView.appendRow(createCommentRow(json.entry[i]));
-					}
-					
 					indicator.hide();
+					win.close();
+					alert(json);
+					config.list.fireEvent('reload');
 				},
 				failure: function(e) {
 					indicator.hide();
@@ -235,6 +374,9 @@
 				}
 			});
 		});
+		
+		win.add(textArea);
+		win.add(button);
 		
 		return win;
 	};

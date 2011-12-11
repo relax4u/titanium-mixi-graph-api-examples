@@ -684,7 +684,13 @@ var GraphApi = function(params) {
 				return;
 			};
 			
-			var response = JSON.parse(this.responseText);
+			var response = null;
+			try {
+				response = JSON.parse(this.responseText);
+			} catch(ex) {
+				Ti.API.debug("[mixi] parsing JSON failed.");
+				response = {};
+			}
 			Ti.API.debug(String.format("[mixi] calling api succeeded. (%s)", response));
 			tryCall(config.success, response);
 		};
