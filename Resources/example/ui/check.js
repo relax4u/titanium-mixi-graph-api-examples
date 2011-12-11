@@ -1,7 +1,7 @@
 (function(){
-	your_namespace.ui.check = {};
+	ex.ui.check = {};
 	
-	your_namespace.ui.check.createWindow = function() {
+	ex.ui.check.createWindow = function() {
 		var win = Ti.UI.createWindow($.mixin({
 			title: L("check_api"),
 			layout: 'vertical'

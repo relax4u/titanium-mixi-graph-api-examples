@@ -1,7 +1,7 @@
 (function(){
-	your_namespace.ui.photo = {};
+	ex.ui.photo = {};
 	
-	your_namespace.ui.photo.createWindow = function(){
+	ex.ui.photo.createWindow = function(){
 		var win = Ti.UI.createWindow($.mixin({
 			title: L("photo_api"),
 			layout: 'vertical'
@@ -38,8 +38,8 @@
 			title: L('add_photo')
 		}, $$.button));
 		addPhoto.addEventListener('click', function(){
-			var win = your_namespace.ui.photo.addPhotoWindow();
-			your_namespace.ui.open(win);
+			var win = ex.ui.photo.addPhotoWindow();
+			ex.ui.open(win);
 		});
 		
 		win.add(albums);
@@ -49,8 +49,8 @@
 		return win;
 	}
 	
-	your_namespace.ui.photo.addPhotoWindow = function() {
-		return your_namespace.ui.photo.createAlbumListWindow(function(data){
+	ex.ui.photo.addPhotoWindow = function() {
+		return ex.ui.photo.createAlbumListWindow(function(data){
 			Ti.Media.openPhotoGallery({
 				success: function(e) {
 					var dialog = Ti.UI.createAlertDialog({
@@ -82,7 +82,7 @@
 		});
 	};
 	
-	your_namespace.ui.photo.createAlbumListWindow = function(callback) {
+	ex.ui.photo.createAlbumListWindow = function(callback) {
 		var win = Ti.UI.createWindow($.mixin({
 			title: L('select_album')
 		}, $$.window));

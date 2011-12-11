@@ -1,7 +1,7 @@
 (function(){
-	your_namespace.ui.updates = {};
+	ex.ui.updates = {};
 	
-	your_namespace.ui.updates.createWindow = function() {
+	ex.ui.updates.createWindow = function() {
 		var win = Ti.UI.createWindow($.mixin({
 			title: L("updates_api"),
 			layout: 'vertical'

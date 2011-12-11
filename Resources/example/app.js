@@ -1,7 +1,7 @@
 /**
  * alias (namespace.util)
  */
-var $ = (your_namespace.util = require('/utilities/util'));
+var $ = (ex.util = require('/utilities/util'));
 
 /**
  * console API 
@@ -9,12 +9,12 @@ var $ = (your_namespace.util = require('/utilities/util'));
 var console = require('/utilities/console');
 
 Ti.include(
-	"/your_app_name/config.js",
+	"/example/config.js",
 	"/mixi_config.js"
 );
 
 (function(){
-	your_namespace.app = {
+	ex.app = {
 	};
 	
 	var MixiGraphApi = require('/mixi').GraphApi;
@@ -22,6 +22,6 @@ Ti.include(
 })();
 
 Ti.include(
-	"/your_app_name/style.js",
-	"/your_app_name/ui/ui.js"
+	"/example/style.js",
+	"/example/ui/ui.js"
 );

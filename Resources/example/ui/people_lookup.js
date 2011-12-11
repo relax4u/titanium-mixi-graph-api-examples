@@ -1,7 +1,7 @@
 (function(){
-	your_namespace.ui.peopleLookup = {};
+	ex.ui.peopleLookup = {};
 	
-	your_namespace.ui.peopleLookup.createWindow = function(){
+	ex.ui.peopleLookup.createWindow = function(){
 		var win = Ti.UI.createWindow($.mixin({
 			title: L("people_lookup_api"),
 			layout: 'vertical'

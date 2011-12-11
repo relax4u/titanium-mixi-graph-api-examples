@@ -1,7 +1,7 @@
 (function(){
-	your_namespace.ui.groups = {};
+	ex.ui.groups = {};
 	
-	your_namespace.ui.groups.createWindow = function(){
+	ex.ui.groups.createWindow = function(){
 		var win = Ti.UI.createWindow($.mixin({
 			title: L("groups_api"),
 			layout: 'vertical'
@@ -11,7 +11,7 @@
 			title: L("group_list")
 		}, $$.button));
 		groups.addEventListener('click', function(){
-			your_namespace.ui.open(your_namespace.ui.groups.createListWindow({
+			ex.ui.open(ex.ui.groups.createListWindow({
 				title: L("group_list")
 			}));
 		});
@@ -21,7 +21,7 @@
 		return win;
 	};
 	
-	your_namespace.ui.groups.createListWindow = function(config){
+	ex.ui.groups.createListWindow = function(config){
 		var win = Ti.UI.createWindow($.mixin({
 			title: config.title || L("people_api")
 		}, $$.window));
@@ -31,14 +31,14 @@
 				backgroundSelectedColor: '#fff'
 			});
 			tableView.addEventListener('click', function(e){
-				your_namespace.ui.open(your_namespace.ui.people.createListWindow({
+				ex.ui.open(ex.ui.people.createListWindow({
 					title: e.rowData.title,
 					groupId: e.rowData.groupId
 				}));
 			});
 			win.add(tableView);
 			
-			var indicator = your_namespace.ui.createIndicator();
+			var indicator = ex.ui.createIndicator();
 			win.add(indicator);
 			indicator.show();
 			

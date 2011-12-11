@@ -1,7 +1,7 @@
 /**
  * alias (namespace.style)
  */
-var $$ = (your_namespace.style = {});
+var $$ = (ex.style = {});
 
 (function(){
 	$$.backgroundColor = '#fff';
@@ -15,4 +15,4 @@ var $$ = (your_namespace.style = {});
 	};
 })();
 
-Ti.include("/your_app_name/specific_style.js");
+Ti.include("/example/specific_style.js");

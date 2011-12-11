@@ -1,11 +1,11 @@
 (function(){
-	your_namespace.ui.checkin = {};
+	ex.ui.checkin = {};
 	
 	$.iphoneOnly(function(){
 		Ti.Geolocation.purpose = L("purpose_message");
 	});
 	
-	your_namespace.ui.checkin.createWindow = function(){
+	ex.ui.checkin.createWindow = function(){
 		var win = Ti.UI.createWindow($.mixin({
 			title: L("checkin_api"),
 			layout: 'vertical'
@@ -15,7 +15,7 @@
 			title: L("add_spot")
 		}, $$.button));
 		create.addEventListener('click', function(){
-			your_namespace.ui.checkin.createMySpotFormWindow().open({modal: true});
+			ex.ui.checkin.createMySpotFormWindow().open({modal: true});
 		});
 		
 		var search = Ti.UI.createButton($.mixin({
@@ -36,7 +36,7 @@
 		return win;
 	};
 	
-	your_namespace.ui.checkin.createMySpotFormWindow = function(){
+	ex.ui.checkin.createMySpotFormWindow = function(){
 		var win = Ti.UI.createWindow($.mixin({
 			title: L("add_spot"),
 			layout: 'vertical'

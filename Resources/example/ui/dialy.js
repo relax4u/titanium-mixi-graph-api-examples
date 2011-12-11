@@ -1,7 +1,7 @@
 (function(){
-	your_namespace.ui.dialy = {};
+	ex.ui.dialy = {};
 	
-	your_namespace.ui.dialy.createWindow = function() {
+	ex.ui.dialy.createWindow = function() {
 		var win = Ti.UI.createWindow($.mixin({
 			title: L("dialy_api")
 		}, $$.window));
@@ -61,7 +61,7 @@
 				parameters.photos = photos;
 			}
 			
-			var indicator = your_namespace.ui.createDarkIndicator({
+			var indicator = ex.ui.createDarkIndicator({
 				message: L("uploading")
 			});
 			win.add(indicator);

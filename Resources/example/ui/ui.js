@@ -1,15 +1,15 @@
 (function(){
-	your_namespace.ui = {};
+	ex.ui = {};
 	
 	var nav = null;
 	
-	your_namespace.ui.createApplicationWindow = function(){
+	ex.ui.createApplicationWindow = function(){
 		Ti.UI.setBackgroundColor('#000');
 		
 		return $.osEach({
 			iphone: function(){
 				nav = Ti.UI.iPhone.createNavigationGroup({
-					window: your_namespace.ui.createRootWindow()
+					window: ex.ui.createRootWindow()
 				});
 				var win = Ti.UI.createWindow({
 					backgroundColor: $$.backgroundColor
@@ -18,12 +18,12 @@
 				return win;
 			},
 			android: function(){
-				return your_namespace.ui.createRootWindow();
+				return ex.ui.createRootWindow();
 			}
 		});
 	};
 	
-	your_namespace.ui.open = function(win, properties) {
+	ex.ui.open = function(win, properties) {
 		properties = properties || {};
 		
 		$.osEach({
@@ -36,7 +36,7 @@
 		});
 	};
 	
-	your_namespace.ui.close = function(win) {
+	ex.ui.close = function(win) {
 		$.osEach({
 			iphone: function(){
 				nav.close(win);
@@ -47,7 +47,7 @@
 		});
 	};
 	
-	your_namespace.ui.createRootWindow = function(){
+	ex.ui.createRootWindow = function(){
 		var win = Ti.UI.createWindow($.mixin({
 			title: L('mixi_graph_api_sample')
 		}, $$.root));
@@ -67,15 +67,15 @@
 			]
 		});
 		tableView.addEventListener('click', function(e){
-			var next = your_namespace.ui[e.rowData.ui].createWindow();
-			your_namespace.ui.open(next);
+			var next = ex.ui[e.rowData.ui].createWindow();
+			ex.ui.open(next);
 		});
 		win.add(tableView);
 		
 		return win;
 	};
 	
-	your_namespace.ui.createIndicator = function(config) {
+	ex.ui.createIndicator = function(config) {
 		var options = $.merge($$.indicator);
 		
 		$.androidOnly(function(){
@@ -85,8 +85,8 @@
 		return Ti.UI.createActivityIndicator($$.indicator);
 	};
 	
-	your_namespace.ui.createDarkIndicator = function(config) {
-		var indicator = your_namespace.ui.createIndicator(config);
+	ex.ui.createDarkIndicator = function(config) {
+		var indicator = ex.ui.createIndicator(config);
 		
 		return $.osEach({
 			iphone: function(){
@@ -106,14 +106,14 @@
 })();
 
 Ti.include(
-	"/your_app_name/ui/authorize.js",
-	"/your_app_name/ui/people.js",
-	"/your_app_name/ui/groups.js",
-	"/your_app_name/ui/people_lookup.js",
-	"/your_app_name/ui/updates.js",
-	"/your_app_name/ui/voice.js",
-	"/your_app_name/ui/check.js",
-	"/your_app_name/ui/photo.js",
-	"/your_app_name/ui/dialy.js",
-	"/your_app_name/ui/checkin.js"
+	"/example/ui/authorize.js",
+	"/example/ui/people.js",
+	"/example/ui/groups.js",
+	"/example/ui/people_lookup.js",
+	"/example/ui/updates.js",
+	"/example/ui/voice.js",
+	"/example/ui/check.js",
+	"/example/ui/photo.js",
+	"/example/ui/dialy.js",
+	"/example/ui/checkin.js"
 );

@@ -1,6 +1,6 @@
-var your_namespace = {};
+var ex = {};
 
-Ti.include("/your_app_name/app.js");
+Ti.include("/example/app.js");
 
-var root = your_namespace.ui.createApplicationWindow();
+var root = ex.ui.createApplicationWindow();
 root.open();

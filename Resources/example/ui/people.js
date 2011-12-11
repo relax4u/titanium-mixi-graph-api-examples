@@ -1,7 +1,7 @@
 (function(){
-	your_namespace.ui.people = {};
+	ex.ui.people = {};
 	
-	your_namespace.ui.people.createWindow = function(){
+	ex.ui.people.createWindow = function(){
 		var win = Ti.UI.createWindow($.mixin({
 			title: L("people_api"),
 			layout: 'vertical'
@@ -11,19 +11,19 @@
 			title: L("my_profile")
 		}, $$.button));
 		myProfile.addEventListener('click', function(){
-			your_namespace.ui.open(your_namespace.ui.people.createDetailWindow({
+			ex.ui.open(ex.ui.people.createDetailWindow({
 				title: L("my_profile"),
 				userId: "@me"
 			}));
 		});
 		
 		var friends = Ti.UI.createButton($.mixin({
-			title: L("friend_list"),
-			groupId: "@friends"
+			title: L("friend_list")
 		}, $$.button));
 		friends.addEventListener('click', function(){
-			your_namespace.ui.open(your_namespace.ui.people.createListWindow({
-				title: L("friend_list")
+			ex.ui.open(ex.ui.people.createListWindow({
+				title: L("friend_list"),
+				groupId: "@friends"
 			}));
 		});
 		
@@ -33,7 +33,7 @@
 		return win;
 	};
 	
-	your_namespace.ui.people.createDetailWindow = function(config){
+	ex.ui.people.createDetailWindow = function(config){
 		var win = Ti.UI.createWindow($.mixin({
 			title: config.title || L("people_api")
 		}, $$.window));
@@ -44,7 +44,7 @@
 			});
 			win.add(tableView);
 			
-			var indicator = your_namespace.ui.createIndicator();
+			var indicator = ex.ui.createIndicator();
 			win.add(indicator);
 			indicator.show();
 			
@@ -113,7 +113,7 @@
 		return win;
 	};
 	
-	your_namespace.ui.people.createListWindow = function(config){
+	ex.ui.people.createListWindow = function(config){
 		var win = Ti.UI.createWindow($.mixin({
 			title: config.title || L("people_api")
 		}, $$.window));
@@ -121,14 +121,14 @@
 		win.addEventListener('open', function(){
 			var tableView = Ti.UI.createTableView();
 			tableView.addEventListener('click', function(e){
-				your_namespace.ui.open(your_namespace.ui.people.createDetailWindow({
+				ex.ui.open(ex.ui.people.createDetailWindow({
 					title: e.rowData.displayName,
 					userId: e.rowData.userId
 				}));
 			});
 			win.add(tableView);
 			
-			var indicator = your_namespace.ui.createIndicator();
+			var indicator = ex.ui.createIndicator();
 			win.add(indicator);
 			indicator.show();
 			

@@ -1,7 +1,7 @@
 (function(){
-	your_namespace.ui.authorize = {};
+	ex.ui.authorize = {};
 	
-	your_namespace.ui.authorize.createWindow = function(){
+	ex.ui.authorize.createWindow = function(){
 		var win = Ti.UI.createWindow($.mixin({
 			title: L('authorize'),
 			layout: 'vertical'

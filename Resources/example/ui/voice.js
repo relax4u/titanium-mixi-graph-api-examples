@@ -1,7 +1,7 @@
 (function(){
-	your_namespace.ui.voice = {};
+	ex.ui.voice = {};
 	
-	your_namespace.ui.voice.createWindow = function(){
+	ex.ui.voice.createWindow = function(){
 		var win = Ti.UI.createWindow($.mixin({
 			title: L("voice_api"),
 			layout: 'vertical'
@@ -38,8 +38,8 @@
 					systemButton: Ti.UI.iPhone.SystemButton.ADD
 				});
 				button.addEventListener('click', function(){
-					var win = your_namespace.ui.voice.createUpdateWindow();
-					your_namespace.ui.open(win);
+					var win = ex.ui.voice.createUpdateWindow();
+					ex.ui.open(win);
 				});
 				
 				win.rightNavButton = button;
@@ -49,8 +49,8 @@
 					var menu = e.menu;
 					var menuItem = menu.add({title: L('add_voice')});
 					menuItem.addEventListener('click', function(){
-						var win = your_namespace.ui.voice.createUpdateWindow();
-						your_namespace.ui.open(win);
+						var win = ex.ui.voice.createUpdateWindow();
+						ex.ui.open(win);
 					});
 				};
 			}
@@ -59,7 +59,7 @@
 		return win;
 	};
 	
-	your_namespace.ui.voice.createUpdateWindow = function(){
+	ex.ui.voice.createUpdateWindow = function(){
 		var image = null;
 		
 		var win = Ti.UI.createWindow($.mixin({
@@ -129,7 +129,7 @@
 				systemButton: Ti.UI.iPhone.SystemButton.CANCEL
 			});
 			button.addEventListener('click', function(){
-				your_namespace.ui.close(win);
+				ex.ui.close(win);
 			});
 			win.leftNavButton = button;
 		});
