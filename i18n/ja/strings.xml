@@ -48,6 +48,7 @@
 	<string name="new_comment">コメント投稿</string>
 	<string name="post_comment">投稿する</string>
 	<string name="please_input_comment">コメントを入力してください</string>
+	<string name="new_album">アルバム追加</string>
 	<string name="dialy_api">Dialy API</string>
 	<string name="please_input_title">タイトルを入力してください。</string>
 	<string name="post_dialy">投稿する</string>

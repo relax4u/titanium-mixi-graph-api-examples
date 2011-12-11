@@ -20,22 +20,6 @@
 			ex.ui.open(win);
 		});
 		
-		var addAlbum = Ti.UI.createButton($.mixin({
-			title: L('add_album')
-		}, $$.button));
-		addAlbum.addEventListener('click', function(){
-			mixi.graphApi.photoAlbumsCreate({
-				parameters: {
-					title: L('new_album_title'),
-					description: L('new_album_description'),
-					visibility: "self"
-				},
-				success: function(json){
-					alert(json);
-				}
-			});
-		});
-		
 		var addPhoto = Ti.UI.createButton($.mixin({
 			title: L('add_photo')
 		}, $$.button));
@@ -45,7 +29,6 @@
 		});
 		
 		win.add(albums);
-		win.add(addAlbum);
 		win.add(addPhoto);
 		
 		return win;
@@ -84,11 +67,34 @@
 		});
 	};
 	
-	
 	ex.ui.photo.createAlbumListWindow = function(callback) {
 		var win = Ti.UI.createWindow($.mixin({
 			title: L('select_album')
 		}, $$.window));
+		
+		var _openForm = function(){
+			var form = ex.ui.photo.createAlbumForm({
+				list: win
+			});
+			form.open({modal: true});
+		};
+		
+		$.osEach({
+			iphone: function(){
+				var addButton = Ti.UI.createButton({
+					title: L("add")
+				});
+				addButton.addEventListener('click', _openForm);
+				win.rightNavButton = addButton;
+			},
+			android: function(){
+				win.activity.onCreateOptionsMenu = function(e){
+					var menu = e.menu;
+					var menuItem = menu.add({title: L('add')});
+					menuItem.addEventListener('click', _openForm);
+				};
+			}
+		});
 		
 		var _init = function(){
 			var tableView = Ti.UI.createTableView();
@@ -103,74 +109,79 @@
 			});
 			win.add(tableView);
 			
-			var indicator = ex.ui.createIndicator();
-			win.add(indicator);
-			indicator.show();
-			
-			mixi.graphApi.photoAlbums({
-				success: function(json) {
-					json.entry.forEach(function(album){
-						var row = Ti.UI.createTableViewRow($.mixin({
-							type: 'row',
-							name: album.title,
-							albumId: album.id
-						},$$.photoTableRow));
-						
-						row.add(Ti.UI.createImageView($.mixin({
-							image: album.thumbnailUrl
-						}, $$.photoThumbnail)));
-						
-						row.add(Ti.UI.createLabel($.mixin({
-							text: album.title
-						}, $$.photoTableRowLabel)));
-						
-						var commentsButton = Ti.UI.createButton($$.photoTableRowCommentsButton);
-						commentsButton.addEventListener('click', function(){
-							var win = ex.ui.photo.createCommentListWindow({
-								title: L("comments"),
-								api: mixi.graphApi.photoAlbumComments,
+			win.addEventListener('reload', function(){
+				tableView.setData([]);
+				
+				var indicator = ex.ui.createIndicator();
+				win.add(indicator);
+				indicator.show();
+				
+				mixi.graphApi.photoAlbums({
+					success: function(json) {
+						json.entry.forEach(function(album){
+							var row = Ti.UI.createTableViewRow($.mixin({
+								type: 'row',
+								name: album.title,
 								albumId: album.id
-							});
+							},$$.photoTableRow));
 							
-							var _openForm = function(){
-								var form = ex.ui.photo.createCommentForm({
-									list: win,
-									api: mixi.graphApi.photoAlbumCommentsCreate,
+							row.add(Ti.UI.createImageView($.mixin({
+								image: album.thumbnailUrl
+							}, $$.photoThumbnail)));
+							
+							row.add(Ti.UI.createLabel($.mixin({
+								text: album.title
+							}, $$.photoTableRowLabel)));
+							
+							var commentsButton = Ti.UI.createButton($$.photoTableRowCommentsButton);
+							commentsButton.addEventListener('click', function(){
+								var win = ex.ui.photo.createCommentListWindow({
+									title: L("comments"),
+									api: mixi.graphApi.photoAlbumComments,
 									albumId: album.id
 								});
-								form.open({modal: true});
-							};
-							
-							$.osEach({
-								iphone: function(){
-									var addButton = Ti.UI.createButton({
-										title: L("add")
+								
+								var _openForm = function(){
+									var form = ex.ui.photo.createCommentForm({
+										list: win,
+										api: mixi.graphApi.photoAlbumCommentsCreate,
+										albumId: album.id
 									});
-									addButton.addEventListener('click', _openForm);
-									win.rightNavButton = addButton;
-								},
-								android: function(){
-									win.activity.onCreateOptionsMenu = function(e){
-										var menu = e.menu;
-										var menuItem = menu.add({title: L('add')});
-										menuItem.addEventListener('click', _openForm);
-									};
-								}
+									form.open({modal: true});
+								};
+								
+								$.osEach({
+									iphone: function(){
+										var addButton = Ti.UI.createButton({
+											title: L("add")
+										});
+										addButton.addEventListener('click', _openForm);
+										win.rightNavButton = addButton;
+									},
+									android: function(){
+										win.activity.onCreateOptionsMenu = function(e){
+											var menu = e.menu;
+											var menuItem = menu.add({title: L('add')});
+											menuItem.addEventListener('click', _openForm);
+										};
+									}
+								});
+								
+								ex.ui.open(win);
 							});
+							row.add(commentsButton);
 							
-							ex.ui.open(win);
+							tableView.appendRow(row);
 						});
-						row.add(commentsButton);
-						
-						tableView.appendRow(row);
-					});
-					indicator.hide();
-				},
-				failure: function(e){
-					indicator.hide();
-					alert(e.error);
-				}
+						indicator.hide();
+					},
+					failure: function(e){
+						indicator.hide();
+						alert(e.error);
+					}
+				});
 			});
+			win.fireEvent('reload');
 		};
 		
 		$.osEach({
@@ -320,6 +331,72 @@
 				win.addEventListener('open', _init);
 			}
 		});
+		
+		return win;
+	};
+	
+	ex.ui.photo.createAlbumForm = function(config) {
+		var win = Ti.UI.createWindow($.mixin({
+			title: config.title || L('new_album'),
+			layout: 'vertical'
+		}, $$.window));
+		
+		$.iphoneOnly(function(){
+			var button = Ti.UI.createButton({
+				systemButton: Ti.UI.iPhone.SystemButton.CANCEL
+			});
+			button.addEventListener('click', function(){
+				win.close();
+			});
+			win.leftNavButton = button;
+		});
+		
+		var textField = Ti.UI.createTextField($.mixin({
+			hintText: L("please_input_title"),
+			value: L('new_album_title')
+		}, $$.textField, true));
+		
+		var textArea = Ti.UI.createTextArea($.mixin({
+			value: L('this_is_test')
+		}, $$.textArea, true));
+		
+		var button = Ti.UI.createButton($.mixin({
+			title: L('post_comment')
+		}, $$.button, true));
+		button.addEventListener('click', function(){
+			if (!$.isDefined(textField.value) || !$.isDefined(textArea.value)) {
+				alert(L('please_input_title'));
+				return;
+			}
+			
+			var indicator = ex.ui.createDarkIndicator({
+				message: L("uploading")
+			});
+			win.add(indicator);
+			indicator.show();
+			
+			mixi.graphApi.photoAlbumsCreate({
+				parameters: {
+					title: textField.value,
+					description: textArea.value,
+					visibility: "self"
+				},
+				success: function(json) {
+					indicator.hide();
+					win.close();
+					alert(json);
+					config.list.fireEvent('reload');
+				},
+				failure: function(e) {
+					indicator.hide();
+					alert(e.error);
+				}
+			});
+		});
+		
+		win.add(textField);
+		win.add(textArea);
+		win.add(button);
 		
 		return win;
 	};
