@@ -103,6 +103,25 @@
 			android: indicator
 		});
 	};
+	
+	ex.ui.setAddButton = function(win, callback, config) {
+		$.osEach({
+			iphone: function(){
+				var addButton = Ti.UI.createButton({
+					systemButton: Ti.UI.iPhone.SystemButton.ADD
+				});
+				addButton.addEventListener('click', callback);
+				win.rightNavButton = addButton;
+			},
+			android: function(){
+				win.activity.onCreateOptionsMenu = function(e){
+					var menu = e.menu;
+					var menuItem = menu.add({title: L('add')});
+					menuItem.addEventListener('click', callback);
+				};
+			}
+		});
+	};
 })();
 
 Ti.include(

@@ -49,6 +49,8 @@
 	<string name="post_comment">投稿する</string>
 	<string name="please_input_comment">コメントを入力してください</string>
 	<string name="new_album">アルバム追加</string>
+	<string name="camera_is_not_supported">カメラがサポートされていません。フォトギャラリを開きますか？</string>
+	<string name="open">開く</string>
 	<string name="dialy_api">Dialy API</string>
 	<string name="please_input_title">タイトルを入力してください。</string>
 	<string name="post_dialy">投稿する</string>
