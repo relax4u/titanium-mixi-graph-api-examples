@@ -13,7 +13,7 @@
 		albums.addEventListener('click', function(){
 			var win = ex.ui.photo.createAlbumListWindow(function(album){
 				ex.ui.open(ex.ui.photo.createMediaItemListWindow({
-					title: album.title,
+					title: album.name,
 					albumId: album.albumId
 				}));
 			});
@@ -112,6 +112,7 @@
 					json.entry.forEach(function(album){
 						var row = Ti.UI.createTableViewRow($.mixin({
 							type: 'row',
+							name: album.title,
 							albumId: album.id
 						},$$.photoTableRow));
 						
