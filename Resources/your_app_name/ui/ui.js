@@ -54,16 +54,16 @@
 		
 		var tableView = Ti.UI.createTableView({
 			data: [
-				{title: L("authorize"), ui: "authorize", hasChild: true},
-				{title: L("people_api"), ui: "people", hasChild: true},
-				{title: L("groups_api"), ui: "groups", hasChild: true},
-				{title: L("people_lookup_api"), ui: "peopleLookup", hasChild: true},
-				{title: L("updates_api"), ui: "updates", hasChild: true},
-				{title: L("voice_api"), ui: "voice", hasChild: true},
-				{title: L("check_api"), ui: "check", hasChild: true},
-				{title: L("photo_api"), ui: "photo", hasChild: true},
-				{title: L("dialy_api"), ui: "dialy", hasChild: true},
-				{title: L("checkin_api"), ui: "checkin", hasChild: true}
+				{title: L("authorize"), color: "#000", ui: "authorize", hasChild: true},
+				{title: L("people_api"), color: "#000", ui: "people", hasChild: true},
+				{title: L("groups_api"), color: "#000", ui: "groups", hasChild: true},
+				{title: L("people_lookup_api"), color: "#000", ui: "peopleLookup", hasChild: true},
+				{title: L("updates_api"), color: "#000", ui: "updates", hasChild: true},
+				{title: L("voice_api"), color: "#000", ui: "voice", hasChild: true},
+				{title: L("check_api"), color: "#000", ui: "check", hasChild: true},
+				{title: L("photo_api"), color: "#000", ui: "photo", hasChild: true},
+				{title: L("dialy_api"), color: "#000", ui: "dialy", hasChild: true},
+				{title: L("checkin_api"), color: "#000", ui: "checkin", hasChild: true}
 			]
 		});
 		tableView.addEventListener('click', function(e){

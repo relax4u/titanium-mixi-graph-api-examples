@@ -29,6 +29,7 @@
 	};
 	
 	$$.label = {
+		color: '#000',
 		font: {fontSize: '20dp', fontFamily: 'Helvetica Neue'},
 		textAlign: 'center',
 		width: 'auto',

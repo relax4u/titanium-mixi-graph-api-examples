@@ -18,7 +18,8 @@
 		});
 		
 		var friends = Ti.UI.createButton($.mixin({
-			title: L("friend_list")
+			title: L("friend_list"),
+			groupId: "@friends"
 		}, $$.button));
 		friends.addEventListener('click', function(){
 			your_namespace.ui.open(your_namespace.ui.people.createListWindow({
@@ -103,8 +104,8 @@
 					indicator.hide();
 				},
 				failure: function(e){
-					alert(e.error);
 					indicator.hide();
+					alert(e.error);
 				}
 			});
 		});
@@ -132,7 +133,7 @@
 			indicator.show();
 			
 			mixi.graphApi.people({
-				groupId: "@friends",
+				groupId: config.groupId,
 				success: function(json){
 					json.entry.forEach(function(user){
 						var row = Ti.UI.createTableViewRow($.mixin({
@@ -153,8 +154,8 @@
 					indicator.hide();
 				},
 				failure: function(e){
-					alert(e.error);
 					indicator.hide();
+					alert(e.error);
 				}
 			});
 		});
