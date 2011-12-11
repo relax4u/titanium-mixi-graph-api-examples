@@ -93,7 +93,13 @@
 		win.addEventListener('open', function(){
 			var tableView = Ti.UI.createTableView();
 			tableView.addEventListener('click', function(e){
-				callback(e.rowData);
+				switch(e.source.type) {
+					case "comments":
+						break;
+					default:
+						callback(e.rowData);
+						break;
+				}
 			});
 			win.add(tableView);
 			
@@ -103,12 +109,32 @@
 			
 			mixi.graphApi.photoAlbums({
 				success: function(json) {
-					for (var i = 0; i < json.entry.length; i++) {
-						tableView.appendRow({
-							title: json.entry[i].title,
-							albumId: json.entry[i].id
+					json.entry.forEach(function(album){
+						var row = Ti.UI.createTableViewRow($.mixin({
+							type: 'row',
+							albumId: album.id
+						},$$.photoTableRow));
+						
+						row.add(Ti.UI.createImageView($.mixin({
+							image: album.thumbnailUrl
+						}, $$.photoThumbnail)));
+						
+						row.add(Ti.UI.createLabel($.mixin({
+							text: album.title
+						}, $$.photoTableRowLabel)));
+						
+						var commentsButton = Ti.UI.createButton($$.photoTableRowCommentsButton);
+						commentsButton.addEventListener('click', function(){
+							ex.ui.open(ex.ui.photo.createCommentListWindow({
+								title: L("comments"),
+								api: mixi.graphApi.photoAlbumComments,
+								albumId: album.id
+							}));
 						});
-					}
+						row.add(commentsButton);
+						
+						tableView.appendRow(row);
+					});
 					indicator.hide();
 				},
 				failure: function(e){
@@ -137,11 +163,11 @@
 			mixi.graphApi.photoMediaItems({
 				albumId: config.albumId,
 				success: function(json){
-					
-					for (var i = 0; i < json.entry.length; i++) {
-						var photo = json.entry[i];
-						
-						var row = Ti.UI.createTableViewRow($$.photoTableRow);
+					json.entry.forEach(function(photo){
+						var row = Ti.UI.createTableViewRow($.mixin({
+							albumId: photo.albumId,
+							mediaItemId: photo.id
+						}, $$.photoTableRow));
 						
 						row.add(Ti.UI.createImageView($.mixin({
 							image: photo.thumbnailUrl
@@ -149,16 +175,24 @@
 						
 						row.add(Ti.UI.createLabel($.mixin({
 							text: photo.title
-						}, $$.photoTableRowLabel)))
+						}, $$.photoTableRowLabel)));
 						
 						var commentsButton = Ti.UI.createButton($$.photoTableRowCommentsButton);
+						commentsButton.addEventListener('click', function(){
+							ex.ui.open(ex.ui.photo.createCommentListWindow({
+								title: L("comments"),
+								api: mixi.graphApi.photoMediaItemComments,
+								albumId: photo.albumId,
+								mediaItemId: photo.id
+							}));
+						});
 						row.add(commentsButton);
 						
 						var favoritesButton = Ti.UI.createButton($$.photoTableRowFavoritesButton);
 						row.add(favoritesButton);
 						
 						tableView.appendRow(row);
-					}
+					});
 					
 					indicator.hide();
 				},
@@ -171,4 +205,55 @@
 		
 		return win;
 	};
+	
+	ex.ui.photo.createCommentListWindow = function(config){
+		var win = Ti.UI.createWindow($.mixin({
+			title: config.title || L('comment_list')
+		}, $$.window));
+		
+		win.addEventListener('open', function(){
+			var tableView = Ti.UI.createTableView();
+			win.add(tableView);
+			
+			var indicator = ex.ui.createIndicator();
+			win.add(indicator);
+			indicator.show();
+			
+			config.api({
+				albumId: config.albumId,
+				mediaItemId: config.mediaItemId,
+				success: function(json) {
+					for (var i = 0; i < json.entry.length; i++) {
+						tableView.appendRow(createCommentRow(json.entry[i]));
+					}
+					
+					indicator.hide();
+				},
+				failure: function(e) {
+					indicator.hide();
+					alert(e.error);
+				}
+			});
+		});
+		
+		return win;
+	};
+	
+	function createCommentRow(comment) {
+		var row = Ti.UI.createTableViewRow($$.photoCommentTableRow);
+		
+		row.add(Ti.UI.createImageView($.mixin({
+			image: comment.user.thumbnailUrl
+		}, $$.photoCommentThumbnail)));
+		
+		row.add(Ti.UI.createLabel($.mixin({
+			text: comment.user.displayName
+		}, $$.photoCommentTableRowNameLabel)));
+		
+		row.add(Ti.UI.createLabel($.mixin({
+			text: comment.text
+		}, $$.photoCommentTableRowCommentLabel)))
+		
+		return row;
+	}
 })();

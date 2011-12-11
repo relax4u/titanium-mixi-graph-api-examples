@@ -90,14 +90,39 @@
 	};
 	
 	$$.photoTableRowCommentsButton = $.merge({
+		type: "comments",
 		title: L("comments"),
 		bottom: '10dp',
 		right: '10dp'
 	}, $$.photoTableRowButton);
 	
 	$$.photoTableRowFavoritesButton = $.merge({
+		type: "favorites",
 		title: L("favorites"),
 		bottom: '40dp',
 		right: '10dp'
 	}, $$.photoTableRowButton);
+	
+	$$.photoCommentTableRow = {
+		height: '100dp',
+		touchEnabled : false,
+		selectionStyle : Ti.UI.iPhone.TableViewCellSelectionStyle.NONE
+	};
+	
+	$$.photoCommentThumbnail = $.merge({
+		top: '10dp',
+		left: '10dp'
+	}, $$.thumbnail);
+	
+	$$.photoCommentTableRowNameLabel = $.merge({
+		top: '10dp',
+		left: '70dp',
+		font: {fontSize: '20dp', fontWeight: 'bold', fontFamily: 'Helvetica Neue'}
+	}, $$.label);
+	
+	$$.photoCommentTableRowCommentLabel = $.merge({
+		top: '40dp',
+		left: '70dp',
+		font: {fontSize: '12dp', fontFamily: 'Helvetica Neue'}
+	}, $$.label);
 })();
