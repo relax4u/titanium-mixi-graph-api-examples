@@ -15,51 +15,18 @@
 			ex.ui.open(win);
 		});
 		
-		//var friendAlbums = Ti.UI.createButton($.mixin({
-		//	title: L("friend_album_list")
-		//}, $$.button));
-		//friendAlbums.addEventListener('click', function(){
-		//	var win = ex.ui.photo.createAlbumListWindow({type: 'friend'});
-		//	ex.ui.open(win);
-		//});
+		var friendAlbums = Ti.UI.createButton($.mixin({
+			title: L("friend_album_list")
+		}, $$.button));
+		friendAlbums.addEventListener('click', function(){
+			var win = ex.ui.photo.createAlbumListWindow({type: 'friend'});
+			ex.ui.open(win);
+		});
 		
 		win.add(albums);
-		//win.add(friendAlbums);
+		win.add(friendAlbums);
 		
 		return win;
-	};
-	
-	ex.ui.photo.addPhotoWindow = function() {
-		return ex.ui.photo.createAlbumListWindow(function(data){
-			Ti.Media.openPhotoGallery({
-				success: function(e) {
-					var dialog = Ti.UI.createAlertDialog({
-						message: L('may_i_upload'),
-						buttonNames: [L('upload'), L('cancel')],
-						cancel: 1
-					});
-					dialog.addEventListener('click', function(f){
-						if (f.index != 0) return;
-						
-						mixi.graphApi.photoMediaItemsCreate({
-							albumId: data.albumId,
-							parameters: {
-								image: e.media
-							},
-							success: function(json){
-								alert(json);
-								win.close();
-							},
-							failure: function(e){
-								alert(e.error);
-							}
-						});
-					});
-					dialog.show();
-				},
-				mediaTypes: [Ti.Media.MEDIA_TYPE_PHOTO]
-			});
-		});
 	};
 	
 	ex.ui.photo.createAlbumListWindow = function(config) {
@@ -67,35 +34,46 @@
 			title: L('select_album')
 		}, $$.window));
 		
-		var _openForm = function(){
-			var form = ex.ui.photo.createAlbumForm({
-				list: win
-			});
-			form.open({modal: true});
-		};
-		ex.ui.setAddButton(win, _openForm);
+		$.specify(config.type, {
+			"mine": function(){
+				var _openForm = function(){
+					var form = ex.ui.photo.createAlbumForm({
+						list: win
+					});
+					form.open({modal: true});
+				};
+				ex.ui.setAddButton(win, _openForm);
+			}
+		});
 		
 		var _init = function(){
 			var tableView = Ti.UI.createTableView({
-				editable: true
+				editable: config.type == "mine"
 			});
-			tableView.addEventListener('delete', function(e){
-				mixi.graphApi.photoAlbumsDestroy({
-					albumId: e.rowData.albumId,
-					success: function(json){
-						alert(json);
-					},
-					failure: function(e){
-						alert(e.error);
-					}
-				});
+			
+			$.specify(config.type, {
+				"mine": function(){
+					tableView.addEventListener('delete', function(e){
+						mixi.graphApi.photoAlbumsDestroy({
+							albumId: e.rowData.albumId,
+							success: function(json){
+								alert(json);
+							},
+							failure: function(e){
+								alert(e.error);
+							}
+						});
+					});
+				}
 			});
+			
 			tableView.addEventListener('click', function(e){
 				switch(e.source.type) {
 					case "comments":
 						break;
 					default:
 						ex.ui.open(ex.ui.photo.createMediaItemListWindow({
+							type: config.type,
 							title: e.rowData.name,
 							albumId: e.rowData.albumId
 						}));
@@ -111,7 +89,12 @@
 				win.add(indicator);
 				indicator.show();
 				
-				mixi.graphApi.photoAlbums({
+				var name = $.specify(config.type, {
+					"mine": "photoAlbums",
+					"friend": "photoFriendAlbums"
+				});
+				
+				mixi.graphApi[name]({
 					success: function(json) {
 						json.entry.forEach(function(album){
 							var row = Ti.UI.createTableViewRow($.mixin({
@@ -131,10 +114,12 @@
 							var commentsButton = Ti.UI.createButton($$.photoTableRowCommentsButton);
 							commentsButton.addEventListener('click', function(){
 								var win = ex.ui.photo.createCommentListWindow({
+									type: config.type,
 									title: L("comments"),
 									indexApi: mixi.graphApi.photoAlbumComments,
 									createApi: mixi.graphApi.photoAlbumCommentsCreate,
 									deleteApi: mixi.graphApi.photoAlbumCommentsDestroy,
+									userId: album.ownerId,
 									albumId: album.id
 								});
 								ex.ui.open(win);
@@ -288,6 +273,7 @@
 									indexApi: mixi.graphApi.photoMediaItemComments,
 									createApi: mixi.graphApi.photoMediaItemCommentsCreate,
 									deleteApi: mixi.graphApi.photoMediaItemCommentsDestroy,
+									userId: photo.owner.id,
 									albumId: photo.albumId,
 									mediaItemId: photo.id
 								});
@@ -339,6 +325,7 @@
 			var form = ex.ui.photo.createCommentForm({
 				list: win,
 				api: config.createApi,
+				userId: config.userId,
 				albumId: config.albumId,
 				mediaItemId: config.mediaItemId
 			});
@@ -352,6 +339,7 @@
 			});
 			tableView.addEventListener('delete', function(e){
 				config.deleteApi({
+					userId: config.userId,
 					albumId: config.albumId,
 					mediaItemId: config.mediaItemId,
 					commentId: e.rowData.commentId,
@@ -373,6 +361,7 @@
 				indicator.show();
 				
 				config.indexApi({
+					userId: config.userId,
 					albumId: config.albumId,
 					mediaItemId: config.mediaItemId,
 					success: function(json) {
@@ -607,6 +596,7 @@
 			indicator.show();
 			
 			config.api({
+				userId: config.userId,
 				albumId: config.albumId,
 				mediaItemId: config.mediaItemId,
 				parameters: {text: textArea.value},

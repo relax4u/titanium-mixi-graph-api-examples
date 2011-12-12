@@ -36,6 +36,7 @@
 	<string name="check">いいね！</string>
 	<string name="photo_api">Photo API</string>
 	<string name="album_list">アルバム一覧</string>
+	<string name="friend_album_list">友達のアルバム一覧</string>
 	<string name="add_album">アルバム追加</string>
 	<string name="new_album_title">非公開テストアルバム</string>
 	<string name="new_album_description">mixi Graph APIによって作成されました</string>
