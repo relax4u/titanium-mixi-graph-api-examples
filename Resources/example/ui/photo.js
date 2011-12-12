@@ -75,6 +75,7 @@
 						ex.ui.open(ex.ui.photo.createMediaItemListWindow({
 							type: config.type,
 							title: e.rowData.name,
+							userId: e.rowData.userId,
 							albumId: e.rowData.albumId
 						}));
 						break;
@@ -100,6 +101,7 @@
 							var row = Ti.UI.createTableViewRow($.mixin({
 								type: 'row',
 								name: album.title,
+								userId: album.owner.id,
 								albumId: album.id
 							},$$.photoTableRow));
 							
@@ -154,75 +156,79 @@
 			title: config.title || L('select_album')
 		}, $$.window));
 		
-		var _openCamera = function(_config){
-			_config = $.mixin({
-				photoGarallery: false
-			}, _config, true);
-			
-			var options = {
-				success: function(e) {
-					var dialog = Ti.UI.createAlertDialog({
-						message: L('may_i_upload'),
-						buttonNames: [L('upload'), L('cancel')],
-						cancel: 1
-					});
-					dialog.addEventListener('click', function(f){
-						if (f.index != 0) return;
-						
-						mixi.graphApi.photoMediaItemsCreate({
-							albumId: config.albumId,
-							parameters: {
-								image: e.media
-							},
-							success: function(json){
-								alert(json);
-								win.fireEvent('reload');
-							},
-							failure: function(e){
-								alert(e.error);
-							}
+		$.specify(config.type, {
+			"mine": function(){
+				var _openCamera = function(_config){
+					_config = $.mixin({
+						photoGarallery: false
+					}, _config, true);
+					
+					var options = {
+						success: function(e) {
+							var dialog = Ti.UI.createAlertDialog({
+								message: L('may_i_upload'),
+								buttonNames: [L('upload'), L('cancel')],
+								cancel: 1
+							});
+							dialog.addEventListener('click', function(f){
+								if (f.index != 0) return;
+								
+								mixi.graphApi.photoMediaItemsCreate({
+									albumId: config.albumId,
+									parameters: {
+										image: e.media
+									},
+									success: function(json){
+										alert(json);
+										win.fireEvent('reload');
+									},
+									failure: function(e){
+										alert(e.error);
+									}
+								});
+							});
+							dialog.show();
+						},
+						mediaTypes: [Ti.Media.MEDIA_TYPE_PHOTO]
+					};
+					
+					if (_config.photoGarallery) {
+						Ti.Media.openPhotoGallery(options);
+					} else {
+						options.error = function(){
+							var dialog = Ti.UI.createAlertDialog({
+								message: L('camera_is_not_supported'),
+								buttonNames: [L('open'), L('cancel')],
+								cancel: 1
+							});
+							dialog.addEventListener('click', function(e){
+								if (e.index != 0) return;
+								_openCamera({photoGarallery: true});
+							})
+							dialog.show();
+						};
+						Ti.Media.showCamera(options);
+					}
+				};
+				
+				$.osEach({
+					iphone: function(){
+						var addButton = Ti.UI.createButton({
+							systemButton: Ti.UI.iPhone.SystemButton.CAMERA
 						});
-					});
-					dialog.show();
-				},
-				mediaTypes: [Ti.Media.MEDIA_TYPE_PHOTO]
-			};
-			
-			if (_config.photoGarallery) {
-				Ti.Media.openPhotoGallery(options);
-			} else {
-				options.error = function(){
-					var dialog = Ti.UI.createAlertDialog({
-						message: L('camera_is_not_supported'),
-						buttonNames: [L('open'), L('cancel')],
-						cancel: 1
-					});
-					dialog.addEventListener('click', function(e){
-						if (e.index != 0) return;
-						_openCamera({photoGarallery: true});
-					})
-					dialog.show();
-				};
-				Ti.Media.showCamera(options);
-			}
-		};
-		
-		$.osEach({
-			iphone: function(){
-				var addButton = Ti.UI.createButton({
-					systemButton: Ti.UI.iPhone.SystemButton.CAMERA
+						addButton.addEventListener('click', _openCamera);
+						win.rightNavButton = addButton;
+					},
+					android: function(){
+						win.activity.onCreateOptionsMenu = function(e){
+							var menu = e.menu;
+							var menuItem = menu.add({title: L('add_photo')});
+							menuItem.addEventListener('click', _openCamera);
+						};
+					}
 				});
-				addButton.addEventListener('click', _openCamera);
-				win.rightNavButton = addButton;
-			},
-			android: function(){
-				win.activity.onCreateOptionsMenu = function(e){
-					var menu = e.menu;
-					var menuItem = menu.add({title: L('add_photo')});
-					menuItem.addEventListener('click', _openCamera);
-				};
 			}
-		});
+		})
 		
 		var _init = function(){
 			var tableView = Ti.UI.createTableView({
@@ -250,6 +256,7 @@
 				indicator.show();
 				
 				mixi.graphApi.photoMediaItems({
+					userId: config.userId,
 					albumId: config.albumId,
 					success: function(json){
 						json.entry.forEach(function(photo){
@@ -284,7 +291,9 @@
 							var favoritesButton = Ti.UI.createButton($$.photoTableRowFavoritesButton);
 							favoritesButton.addEventListener('click', function(){
 								var win = ex.ui.photo.createFavoritesWindow({
+									type: config.type,
 									title: L("favorites"),
+									userId: photo.owner.id,
 									albumId: photo.albumId,
 									mediaItemId: photo.id
 								});
@@ -392,47 +401,59 @@
 	};
 	
 	ex.ui.photo.createFavoritesWindow = function(config) {
-		console.log(config);
 		var win = Ti.UI.createWindow($.mixin({
 			title: config.title || L('favorites')
 		}, $$.window));
 		
-		// var _like = function(){
-			// mixi.graphApi.photoMediaItemFavoritesCreate({
-				// albumId: config.albumId,
-				// mediaItemId: config.mediaItemId,
-				// success: function(json){
-					// alert(json);
-				// },
-				// failure: function(e){
-					// alert(e.error);
-				// }
-			// })
-		// };
-// 		
-		// $.osEach({
-			// iphone: function(){
-				// var addButton = Ti.UI.createButton({
-					// title: L("like")
-				// });
-				// addButton.addEventListener('click', _like);
-				// win.rightNavButton = addButton;
-			// },
-			// android: function(){
-				// win.activity.onCreateOptionsMenu = function(e){
-					// var menu = e.menu;
-					// var menuItem = menu.add({title: L('like')});
-					// menuItem.addEventListener('click', _like);
-				// };
-			// }
-		// });
+		$.specify(config.type, {
+			"friend": function(){
+				var _like = function(){
+					mixi.graphApi.photoMediaItemFavoritesCreate({
+						userId: config.userId,
+						albumId: config.albumId,
+						mediaItemId: config.mediaItemId,
+						success: function(json){
+							alert(json);
+							win.fireEvent('reload');
+						},
+						failure: function(e){
+							alert(e.error);
+						}
+					})
+				};
+				
+				$.osEach({
+					iphone: function(){
+						var addButton = Ti.UI.createButton({
+							title: L("like")
+						});
+						addButton.addEventListener('click', _like);
+						win.rightNavButton = addButton;
+					},
+					android: function(){
+						win.activity.onCreateOptionsMenu = function(e){
+							var menu = e.menu;
+							var menuItem = menu.add({title: L('like')});
+							menuItem.addEventListener('click', _like);
+						};
+					}
+				});
+			}
+		});
 		
 		var _init = function(){
 			var tableView = Ti.UI.createTableView({
 				editable: true
 			});
+			tableView.addEventListener('click', function(e){
+				ex.ui.open(ex.ui.people.createDetailWindow({
+					title: e.rowData.displayName,
+					userId: e.rowData.userId
+				}));
+			});
 			tableView.addEventListener('delete', function(e){
 				mixi.graphApi.photoMediaItemFavoritesDestroy({
+					userId: config.userId,
 					albumId: config.albumId,
 					mediaItemId: config.mediaItemId,
 					favoriteUserId: e.rowData.userId,
@@ -454,6 +475,7 @@
 				indicator.show();
 				
 				mixi.graphApi.photoMediaItemFavorites({
+					userId: config.userId,
 					albumId: config.albumId,
 					mediaItemId: config.mediaItemId,
 					success: function(json){
