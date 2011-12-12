@@ -678,19 +678,16 @@ var GraphApi = function(params) {
 		
 		xhr.onload = function(){
 			if (xhr.status != 200 && xhr.status != 201) {
-				var error = _authenticateHeader(xhr);
+				var error = _parseJSON(this.responseText);
+				mixin(error, _authenticateHeader(xhr));
 				Ti.API.warn(String.format("[mixi] calling api failed. (%s)", error));
 				tryCall(config.error, error);
 				return;
 			};
 			
-			var response = null;
-			try {
-				response = JSON.parse(this.responseText);
-			} catch(ex) {
-				Ti.API.debug("[mixi] parsing JSON failed.");
-				response = {};
-			}
+			var response = _parseJSON(this.responseText);
+			response.status = xhr.status;
+			
 			Ti.API.debug(String.format("[mixi] calling api succeeded. (%s)", response));
 			tryCall(config.success, response);
 		};
@@ -750,6 +747,17 @@ var GraphApi = function(params) {
 		
 		return options;
 	};
+	
+	function _parseJSON(string) {
+		var json = null;
+		try {
+			json = JSON.parse(string);
+		} catch(ex) {
+			Ti.API.debug("[mixi] parsing JSON failed.");
+			json = {};
+		}
+		return json;
+	}
 };
 
 

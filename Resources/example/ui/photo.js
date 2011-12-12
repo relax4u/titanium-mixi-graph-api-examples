@@ -23,8 +23,20 @@
 			ex.ui.open(win);
 		});
 		
+		var friendPhotos = Ti.UI.createButton($.mixin({
+			title: L("friend_photo_list")
+		}, $$.button));
+		friendPhotos.addEventListener('click', function(){
+			var win = ex.ui.photo.createMediaItemListWindow({
+				type: 'direct',
+				title: L("friend_photo_list")
+			});
+			ex.ui.open(win);
+		});
+		
 		win.add(albums);
 		win.add(friendAlbums);
+		win.add(friendPhotos);
 		
 		return win;
 	};
@@ -59,7 +71,7 @@
 							success: function(json){
 								alert(json);
 							},
-							failure: function(e){
+							error: function(e){
 								alert(e.error);
 							}
 						});
@@ -132,7 +144,7 @@
 						});
 						indicator.hide();
 					},
-					failure: function(e){
+					error: function(e){
 						indicator.hide();
 						alert(e.error);
 					}
@@ -182,7 +194,7 @@
 										alert(json);
 										win.fireEvent('reload');
 									},
-									failure: function(e){
+									error: function(e){
 										alert(e.error);
 									}
 								});
@@ -241,7 +253,7 @@
 					success: function(json){
 						alert(json);
 					},
-					failure: function(e){
+					error: function(e){
 						alert(e.error);
 					}
 				});
@@ -255,7 +267,16 @@
 				win.add(indicator);
 				indicator.show();
 				
-				mixi.graphApi.photoMediaItems({
+				var name = $.specify(config.type, {
+					"direct": function(){
+						config.type = "friend";
+						config.userId = "@me";
+						return "photoFriendMediaItems";
+					},
+					"default": "photoMediaItems"
+				});
+				
+				mixi.graphApi[name]({
 					userId: config.userId,
 					albumId: config.albumId,
 					success: function(json){
@@ -306,7 +327,7 @@
 						
 						indicator.hide();
 					},
-					failure: function(e){
+					error: function(e){
 						indicator.hide();
 						alert(e.error);
 					}
@@ -355,7 +376,7 @@
 					success: function(json) {
 						alert(json);
 					},
-					failure: function(e) {
+					error: function(e) {
 						alert(e.error);
 					}
 				});
@@ -380,7 +401,7 @@
 						
 						indicator.hide();
 					},
-					failure: function(e) {
+					error: function(e) {
 						indicator.hide();
 						alert(e.error);
 					}
@@ -416,7 +437,7 @@
 							alert(json);
 							win.fireEvent('reload');
 						},
-						failure: function(e){
+						error: function(e){
 							alert(e.error);
 						}
 					})
@@ -460,7 +481,7 @@
 					success: function(json){
 						alert(json);
 					},
-					failure: function(e){
+					error: function(e){
 						alert(e.error);
 					}
 				});
@@ -497,7 +518,7 @@
 						});
 						indicator.hide();
 					},
-					failure: function(e){
+					error: function(e){
 						indicator.hide();
 						alert(e.error);
 					}
@@ -568,7 +589,7 @@
 					alert(json);
 					config.list.fireEvent('reload');
 				},
-				failure: function(e) {
+				error: function(e) {
 					indicator.hide();
 					alert(e.error);
 				}
@@ -628,7 +649,7 @@
 					alert(json);
 					config.list.fireEvent('reload');
 				},
-				failure: function(e) {
+				error: function(e) {
 					indicator.hide();
 					alert(e.error);
 				}
