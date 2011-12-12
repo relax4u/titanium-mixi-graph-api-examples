@@ -60,6 +60,30 @@
 		hasChild: true
 	}, true);
 	
+	// for Updates list
+	$$.updatesTableRow = {
+		height: 100,
+		touchEnabled : false,
+		selectionStyle : Ti.UI.iPhone.TableViewCellSelectionStyle.NONE
+	};
+	
+	$$.updatesThumbnail = $.merge({
+		top: 10,
+		left: 10
+	}, $$.thumbnail);
+	
+	$$.updatesTableRowNameLabel = $.merge({
+		top: 10,
+		left: 70,
+		font: {fontSize: 20, fontWeight: 'bold', fontFamily: 'Helvetica Neue'}
+	}, $$.label);
+	
+	$$.updatesTableRowCommentLabel = $.merge({
+		top: 40,
+		left: 70,
+		font: {fontSize: 12, fontFamily: 'Helvetica Neue'},
+		textAlign: 'left'
+	}, $$.label);
 	
 	// for Photo list
 	$$.photoTableRow = {
