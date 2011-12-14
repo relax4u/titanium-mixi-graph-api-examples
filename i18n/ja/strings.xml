@@ -79,6 +79,7 @@
 	<string name="this_is_test">これはテストです。</string>
 	<string name="loading">読み込み中...</string>
 	<string name="uploading">アップロード中...</string>
+	<string name="sending">送信中...</string>
 	<string name="iphone_is_not_supported">iPhoneではサポートされていません</string>
 	<string name="unknown_error">エラーが発生しました</string>
 	<string name="unknown">不明</string>

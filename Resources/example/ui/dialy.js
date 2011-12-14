@@ -61,10 +61,7 @@
 				parameters.photos = photos;
 			}
 			
-			var indicator = ex.ui.createDarkIndicator({
-				message: L("uploading")
-			});
-			win.add(indicator);
+			var indicator = ex.ui.createFrontIndicator(win, {message: L("sending")});
 			indicator.show();
 			
 			mixi.graphApi.dialyCreate({
@@ -73,7 +70,7 @@
 					indicator.hide();
 					alert(JSON.stringify(json));
 				},
-				failure: function(e) {
+				error: function(e) {
 					indicator.hide();
 					alert(JSON.stringify(e));
 				}

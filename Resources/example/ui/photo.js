@@ -185,22 +185,29 @@
 							dialog.addEventListener('click', function(f){
 								if (f.index != 0) return;
 								
+								var indicator = ex.ui.createFrontIndicator(win, {message: L("sending")});
+								indicator.show();
+								
 								mixi.graphApi.photoMediaItemsCreate({
 									albumId: config.albumId,
 									parameters: {
 										image: e.media
 									},
 									success: function(json){
+										indicator.hide();
 										alert(json);
 										win.fireEvent('reload');
 									},
 									error: function(e){
+										indicator.hide();
 										alert(e.error);
 									}
 								});
 							});
 							dialog.show();
 						},
+						error: function(){},
+						cancel: function(){},
 						mediaTypes: [Ti.Media.MEDIA_TYPE_PHOTO]
 					};
 					
@@ -429,15 +436,20 @@
 		$.specify(config.type, {
 			"friend": function(){
 				var _like = function(){
+					var indicator = ex.ui.createFrontIndicator(win, {message: L("sending")});
+					indicator.show();
+					
 					mixi.graphApi.photoMediaItemFavoritesCreate({
 						userId: config.userId,
 						albumId: config.albumId,
 						mediaItemId: config.mediaItemId,
 						success: function(json){
+							indicator.hide();
 							alert(json);
 							win.fireEvent('reload');
 						},
 						error: function(e){
+							indicator.hide();
 							alert(e.error);
 						}
 					})
@@ -571,10 +583,7 @@
 				return;
 			}
 			
-			var indicator = ex.ui.createDarkIndicator({
-				message: L("uploading")
-			});
-			win.add(indicator);
+			var indicator = ex.ui.createFrontIndicator(win, {message: L("sending")});
 			indicator.show();
 			
 			mixi.graphApi.photoAlbumsCreate({
@@ -632,10 +641,7 @@
 				return;
 			}
 			
-			var indicator = ex.ui.createDarkIndicator({
-				message: L("uploading")
-			});
-			win.add(indicator);
+			var indicator = ex.ui.createFrontIndicator(win, {message: L("sending")});
 			indicator.show();
 			
 			config.api({

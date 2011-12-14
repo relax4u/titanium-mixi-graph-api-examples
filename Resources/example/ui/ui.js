@@ -2,24 +2,44 @@
 	ex.ui = {};
 	
 	var nav = null;
+	var frontIndicator = null;
 	
 	ex.ui.createApplicationWindow = function(){
 		Ti.UI.setBackgroundColor('#000');
 		
+		var root = ex.ui.createRootWindow();
+		
+		// for iphone indicator
+		$.iphoneOnly(function(){
+			
+		});
+		
 		return $.osEach({
 			iphone: function(){
 				nav = Ti.UI.iPhone.createNavigationGroup({
-					window: ex.ui.createRootWindow()
+					window: root
 				});
 				var win = Ti.UI.createWindow({
 					backgroundColor: $$.backgroundColor
 				});
 				win.add(nav);
+				
+				frontIndicator = Ti.UI.createView({
+					backgroundColor: "#000",
+					opacity: 0.5,
+					zIndex: 1000,
+					visible: false
+				});
+				
+				var indicator =  ex.ui.createIndicator();
+				frontIndicator.add(indicator);
+				indicator.show();
+			
+				nav.add(frontIndicator);
+				
 				return win;
 			},
-			android: function(){
-				return ex.ui.createRootWindow();
-			}
+			android: root
 		});
 	};
 	
@@ -82,7 +102,34 @@
 			options = $.mixin(options, config, true);
 		});
 		
-		return Ti.UI.createActivityIndicator($$.indicator);
+		return Ti.UI.createActivityIndicator(options);
+	};
+	
+	ex.ui.createFrontIndicator = function(parent, config){
+		return new (function(){
+			var self = this;
+			
+			this.ui = $.osEach({
+				iphone: frontIndicator,
+				android: ex.ui.createIndicator(config)
+			});
+			
+			this.show = function(){
+				$.osEach({
+					iphone: function(){
+						self.ui.show();
+					},
+					android: function(){
+						parent.add(self.ui);
+						self.ui.show();
+					}
+				});
+			};
+			
+			this.hide = function(){
+				self.ui.hide();
+			};
+		})();
 	};
 	
 	ex.ui.createDarkIndicator = function(config) {

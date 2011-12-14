@@ -54,7 +54,7 @@
 					});
 					indicator.hide();
 				},
-				failure: function(e){
+				error: function(e){
 					indicator.hide();
 					alert(e.error);
 				}

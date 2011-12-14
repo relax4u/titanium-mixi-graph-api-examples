@@ -248,13 +248,18 @@
 		}, $$.window));
 		
 		var _like = function(){
+			var indicator = ex.ui.createFrontIndicator(win, {message: L("sending")});
+			indicator.show();
+			
 			mixi.graphApi.voiceFavoritesCreate({
 				postId: config.postId,
 				success: function(json){
+					indicator.hide();
 					alert(json);
 					win.fireEvent('reload');
 				},
 				error: function(e){
+					indicator.hide();
 					alert(e.error);
 				}
 			})
@@ -372,8 +377,7 @@
 			var params = {status: textArea.value};
 			if ($.isDefined(image)) params.photo = image;
 			
-			var indicator = ex.ui.createIndicator();
-			win.add(indicator);
+			var indicator = ex.ui.createFrontIndicator(win, {message: L("sending")});
 			indicator.show();
 			
 			mixi.graphApi.voiceStatusesUpdate({
@@ -445,8 +449,7 @@
 				return;
 			}
 			
-			var indicator = ex.ui.createIndicator();
-			win.add(indicator);
+			var indicator = ex.ui.createFrontIndicator(win, {message: L("sending")});
 			indicator.show();
 			
 			mixi.graphApi.voiceRepliesCreate({
