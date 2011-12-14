@@ -75,6 +75,9 @@
 	<string name="my_spots">マイスポット一覧</string>
 	<string name="friend_spots">友達のマイスポット一覧</string>
 	<string name="search_spot">マイスポット検索</string>
+	<string name="my_checkin_list">チェックイン一覧</string>
+	<string name="friend_checkin_list">友達のチェックイン一覧</string>
+	<string name="checkin">チェックインする</string>
 	<string name="add_spot">マイスポット作成</string>
 	<string name="test_spot">テストスポット</string>
 	<string name="please_input_spot">スポット名を入力してください</string>

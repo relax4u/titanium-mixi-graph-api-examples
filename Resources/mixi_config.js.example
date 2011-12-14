@@ -2,8 +2,31 @@ var mixi = {
 	config: {
 		consumerKey: "",
 		consumerSecret: "",
-		scope: ["r_profile", "r_profile_birthday", "r_profile_name", "r_updates",
-			"r_voice", "w_voice", "r_photo", "w_photo", "w_share", "r_message", "w_message", "r_checkin", "w_checkin", "w_diary"],
+		scope: [
+			"r_profile",
+			"r_profile_name",
+			"r_profile_gender",
+			"r_profile_birthday",
+			"r_profile_blood_type",
+			"r_profile_location",
+			"r_profile_hometown",
+			"r_profile_about_me",
+			"r_profile_occupation",
+			"r_profile_interests",
+			"r_profile_favorite_things",
+			"r_profile_organizations",
+			"r_updates",
+			"r_voice",
+			"w_voice",
+			"r_photo", 
+			"w_photo",
+			"w_share",
+			"r_message",
+			"w_message",
+			"r_checkin",
+			"w_checkin",
+			"w_diary"
+		],
 		autoAuthorize: true
 	},
 	

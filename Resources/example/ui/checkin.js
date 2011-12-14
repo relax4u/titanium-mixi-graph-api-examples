@@ -43,16 +43,57 @@
 			ex.ui.open(ex.ui.checkin.createSearchMapWindow());
 		});
 		
+		var myCheckinList = Ti.UI.createButton($.mixin({
+			title: L("my_checkin_list")
+		}, $$.button));
+		
+		var friendcheckinList = Ti.UI.createCheckinList = Ti.UI.createButton($.mixin({
+			title: L("friend_checkin_list")
+		}, $$.button));
+		
+		var checkin = Ti.UI.createButton($.mixin({
+			title: L("checkin")
+		}, $$.button));
+		checkin.addEventListener('click', function(){
+			ex.ui.open(ex.ui.checkin.createSpotListWindow({
+				title: L("my_spots"),
+				userId: "@me",
+				callback: function(e) {
+					ex.ui.open(ex.ui.checkin.createCheckinFormWindow({
+						spotId: e.rowData.spotId
+					}));
+				}
+			}));
+		});
+		
 		win.add(mySpots);
 		win.add(friendSpots);
 		win.add(search);
+		win.add(myCheckinList);
+		win.add(friendcheckinList);
+		win.add(checkin);
 		
 		return win;
 	};
 	
 	ex.ui.checkin.createSpotListWindow = function(config){
+		config = $.mixin({
+			title: L("checkin_api"),
+			callback: function(e) {
+				mixi.graphApi.spot({
+					spotId: e.rowData.spotId,
+					success: function(json) {
+						alert(json);
+					},
+					error: function(e) {
+						alert(e.error);
+					}
+				});
+			}
+		}, config, true);
+		
 		var win = Ti.UI.createWindow($.mixin({
-			title: config.title || L("checkin_api")
+			title: config.title
 		}, $$.window));
 		
 		if (config.userId == "@me") {
@@ -83,17 +124,7 @@
 				});
 			});
 			
-			tableView.addEventListener('click', function(e){
-				mixi.graphApi.spot({
-					spotId: e.rowData.spotId,
-					success: function(json) {
-						alert(json);
-					},
-					error: function(e) {
-						alert(e.error);
-					}
-				})
-			});
+			tableView.addEventListener('click', config.callback);
 			
 			win.addEventListener('reload', function(){
 				tableView.setData([]);
@@ -187,7 +218,7 @@
 		});
 		
 		return win;
-	}
+	};
 	
 	ex.ui.checkin.createMySpotFormWindow = function(config){
 		var win = Ti.UI.createWindow($.mixin({
@@ -232,6 +263,78 @@
 		});
 		
 		win.add(textField);
+		win.add(textArea);
+		win.add(button);
+		
+		return win;
+	};
+	
+	ex.ui.checkin.createCheckinFormWindow = function(config){
+		var win = Ti.UI.createWindow($.mixin({
+			title: L("checkin"),
+			layout: 'vertical'
+		}, $$.window));
+		
+		var photo = null;
+		
+		var _openCamera = function(config){
+			Ti.Media.openPhotoGallery({
+				success: function(e) {
+					photo = e.media;
+				},
+				mediaTypes: [Ti.Media.MEDIA_TYPE_PHOTO]
+			});
+		};
+		
+		$.osEach({
+			iphone: function(){
+				var addButton = Ti.UI.createButton({
+					systemButton: Ti.UI.iPhone.SystemButton.CAMERA
+				});
+				addButton.addEventListener('click', _openCamera);
+				win.rightNavButton = addButton;
+			},
+			android: function(){
+				win.activity.onCreateOptionsMenu = function(e){
+					var menu = e.menu;
+					var menuItem = menu.add({title: L('add_photo')});
+					menuItem.addEventListener('click', _openCamera);
+				};
+			}
+		});
+		
+		var textArea = Ti.UI.createTextArea($.mixin({
+			value: L('this_is_test')
+		}, $$.textArea));
+		
+		var button = Ti.UI.createButton($.mixin({
+			title: L('checkin')
+		}, $$.button));
+		button.addEventListener('click', function(){
+			var indicator = ex.ui.createFrontIndicator(win, {message: L("sending")});
+			indicator.show();
+			
+			mixi.graphApi.checkinsCreate({
+				spotId: config.spotId,
+				parameters: {
+					message: textArea.value,
+					photo: photo,
+					privacy: {
+						visibility: "self"
+					}
+				},
+				success: function(json) {
+					indicator.hide();
+					ex.ui.close(win);
+					alert(json);
+				},
+				error: function(e) {
+					indicator.hide();
+					alert(e.error);
+				}
+			})
+		});
+		
 		win.add(textArea);
 		win.add(button);
 		

@@ -372,8 +372,21 @@ var GraphApi = function(params) {
 	};
 	
 	this.checkinsCreate = function(config) {
-		config = mixin({userId: "@me"}, config, true);
-		var url = String.format("checkins/%s/@self/%s", config.userId, config.checkinId);
+		config = mixin({parameters: {}}, config, true);
+		
+		var photo = config.parameters.photo;
+		delete config.parameters.photo;
+		
+		if (isDefined(photo)) {
+			config.parameters = {
+				request: JSON.stringify(config.parameters),
+				photo: photo
+			};
+		} else {
+			config.type = "json";
+		}
+		
+		var url = String.format("checkins/%s", config.spotId);
 		self.callApi("POST", url, config);
 	};
 	
