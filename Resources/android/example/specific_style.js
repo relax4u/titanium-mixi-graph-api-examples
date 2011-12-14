@@ -182,4 +182,9 @@
 	$$.checkinTableRowCommentLabel = $$.updatesTableRowCommentLabel;
 	$$.checkinTableRowCommentsButton = $$.photoTableRowCommentsButton;
 	$$.checkinTableRowFavoritesButton = $$.voiceTableRowFavoritesButton;
+	
+	$$.checkinCommentTableRow = $$.photoCommentTableRow;
+	$$.checkinCommentThumbnail = $$.photoCommentThumbnail;
+	$$.checkinCommentTableRowNameLabel = $$.photoCommentTableRowNameLabel;
+	$$.checkinCommentTableRowCommentLabel = $$.photoCommentTableRowCommentLabel;
 })();
