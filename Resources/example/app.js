@@ -15,6 +15,19 @@ Ti.include(
 
 (function(){
 	ex.app = {
+		geolocationEnabled: function() {
+			if (!Ti.Geolocation.locationServicesEnabled) return false;
+		
+			if (Ti.Platform.osname != "android") {
+				switch (Ti.Geolocation.locationServicesAuthorization) {
+					case Ti.Geolocation.AUTHORIZATION_DENIED:
+					case Ti.Geolocation.AUTHORIZATION_RESTRICTED:
+						return false;
+				}
+			}
+			
+			return true;
+		}
 	};
 	
 	var MixiGraphApi = require('/mixi').GraphApi;

@@ -114,18 +114,23 @@
 	};
 	
 	ex.ui.people.createListWindow = function(config){
-		var win = Ti.UI.createWindow($.mixin({
-			title: config.title || L("people_api")
-		}, $$.window));
-		
-		win.addEventListener('open', function(){
-			var tableView = Ti.UI.createTableView();
-			tableView.addEventListener('click', function(e){
+		config = $.mixin({
+			title: L("people_api"),
+			callback: function(e){
 				ex.ui.open(ex.ui.people.createDetailWindow({
 					title: e.rowData.displayName,
 					userId: e.rowData.userId
 				}));
-			});
+			}
+		}, config, true);
+		
+		var win = Ti.UI.createWindow($.mixin({
+			title: config.title
+		}, $$.window));
+		
+		var _init = function(){
+			var tableView = Ti.UI.createTableView();
+			tableView.addEventListener('click', config.callback);
 			win.add(tableView);
 			
 			var indicator = ex.ui.createIndicator();
@@ -158,6 +163,13 @@
 					alert(e.error);
 				}
 			});
+		};
+		
+		$.osEach({
+			iphone: _init,
+			android: function(){
+				win.addEventListener('open', _init);
+			}
 		});
 		
 		return win;
