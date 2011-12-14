@@ -85,6 +85,29 @@
 		textAlign: 'left'
 	}, $$.label);
 	
+	// for voice list
+	$$.voiceTableRow = $$.updatesTableRow;
+	$$.voiceThumbnail = $$.updatesThumbnail;
+	$$.voiceTableRowNameLabel = $$.updatesTableRowNameLabel;
+	$$.voiceTableRowCommentLabel = $$.updatesTableRowCommentLabel;
+	$$.voiceTableRowButton = {
+		width: 80,
+		height: 20,
+		font: {fontSize: 10, fontFamily: 'Helvetica Neue'}
+	};
+	$$.voiceTableRowRepliesButton = $.merge({
+		type: "replies",
+		title: L("replies"),
+		bottom: 10,
+		right: 10
+	}, $$.voiceTableRowButton);
+	$$.voiceTableRowFavoritesButton = $.merge({
+		type: "favorites",
+		title: L("favorites"),
+		bottom: 10,
+		right: 100
+	}, $$.voiceTableRowButton);
+	
 	// for Photo list
 	$$.photoTableRow = {
 		height: 120,

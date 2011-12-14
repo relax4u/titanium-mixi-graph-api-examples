@@ -98,7 +98,7 @@ APIによってはパラメータを指定することもあります。その�
 * voiceRepliesCreate({postId: "postId", parameters: {text: "comment"}})
 * voiceRepliesDestroy({postId: "postId", commentId: "commentId"})
 * voiceFavoritesCreate({postId: "postId")
-* voiceFacoritesDestroy({postId: "postId", userId:"@me"})
+* voiceFavoritesDestroy({postId: "postId", userId:"@me"})
 
 ### Check API
 

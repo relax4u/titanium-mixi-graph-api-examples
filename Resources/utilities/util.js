@@ -2,6 +2,26 @@ var isDefined = function(object) {
 	return typeof object !== 'undefined';
 }
 
+var isPresent = function(object) {
+	switch (typeof object) {
+		case "undefined":
+			return false;
+		case "string":
+			return object.length > 0
+		case "number":
+			return true;
+		case "boolean":
+			return object;
+		case "object":
+			if (object instanceof Array) {
+				return object.length > 0
+			} else {
+				for(var i in object) return true;
+				return false;
+			}
+	}
+}
+
 var isString = function(string) {
 	return typeof string === "string";
 }
@@ -116,6 +136,8 @@ var _mixin = function(target, object, force) {
 }
 
 exports.isDefined = isDefined;
+exports.isPresent = isPresent;
+exports.isBlank = function(object) { return !isPresent(object) };
 exports.isString = isString;
 exports.isNumber = isNumber;
 exports.isBoolean = isBoolean;

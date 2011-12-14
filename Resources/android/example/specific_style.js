@@ -94,6 +94,30 @@
 		textAlign: 'left'
 	}, $$.label);
 	
+	// for voice list
+	$$.voiceTableRow = $$.updatesTableRow;
+	$$.voiceThumbnail = $$.updatesThumbnail;
+	$$.voiceTableRowNameLabel = $$.updatesTableRowNameLabel;
+	$$.voiceTableRowCommentLabel = $$.updatesTableRowCommentLabel;
+	$$.voiceTableRowButton = {
+		width: '80dp',
+		height: '20dp',
+		font: {fontSize: '10dp', fontFamily: 'Helvetica Neue'}
+	};
+	$$.voiceTableRowRepliesButton = $.merge({
+		type: "replies",
+		title: L("replies"),
+		bottom: '10dp',
+		right: '10dp'
+	}, $$.voiceTableRowButton);
+	$$.voiceTableRowFavoritesButton = $.merge({
+		type: "favorites",
+		title: L("favorites"),
+		bottom: '40dp',
+		right: '10dp'
+	}, $$.voiceTableRowButton);
+
+	
 	// for Photo list
 	$$.photoTableRow = {
 		height: '100dp',

@@ -121,7 +121,8 @@ var GraphApi = function(params) {
 		self.callApi("POST", url, config);
 	};
 	
-	this.voiceFacoritesDestroy = function(config) {
+	this.voiceFavoritesDestroy = function(config) {
+		config = $.mixin({userId: "@me"}, config, true);
 		var url = String.format("voice/favorites/%s/%s", config.postId, config.userId);
 		self.callApi("DELETE", url, config);
 	};

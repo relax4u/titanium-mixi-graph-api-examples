@@ -38,6 +38,7 @@
 	<string name="voice_api">Voice API</string>
 	<string name="user_timeline">つぶやき一覧</string>
 	<string name="friend_timeline">友達のつぶやき一覧</string>
+	<string name="replies">リプライ一覧</string>
 	<string name="new_voice">新しいつぶやき</string>
 	<string name="post_voice">つぶやく</string>
 	<string name="please_input_voice">つぶやきを入力してください</string>
