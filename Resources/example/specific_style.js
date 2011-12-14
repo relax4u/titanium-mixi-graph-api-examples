@@ -164,4 +164,12 @@
 		left: 70,
 		font: {fontSize: 12, fontFamily: 'Helvetica Neue'}
 	}, $$.label);
+	
+	// for check-in list
+	$$.checkinTableRow = $$.updatesTableRow;
+	$$.checkinThumbnail = $$.updatesThumbnail;
+	$$.checkinTableRowNameLabel = $$.updatesTableRowNameLabel;
+	$$.checkinTableRowCommentLabel = $$.updatesTableRowCommentLabel;
+	$$.checkinTableRowCommentsButton = $$.photoTableRowCommentsButton;
+	$$.checkinTableRowFavoritesButton = $$.voiceTableRowFavoritesButton;
 })();

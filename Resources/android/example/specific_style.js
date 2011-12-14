@@ -174,4 +174,12 @@
 		left: '70dp',
 		font: {fontSize: '12dp', fontFamily: 'Helvetica Neue'}
 	}, $$.label);
+	
+	// for check-in list
+	$$.checkinTableRow = $$.updatesTableRow;
+	$$.checkinThumbnail = $$.updatesThumbnail;
+	$$.checkinTableRowNameLabel = $$.updatesTableRowNameLabel;
+	$$.checkinTableRowCommentLabel = $$.updatesTableRowCommentLabel;
+	$$.checkinTableRowCommentsButton = $$.photoTableRowCommentsButton;
+	$$.checkinTableRowFavoritesButton = $$.voiceTableRowFavoritesButton;
 })();

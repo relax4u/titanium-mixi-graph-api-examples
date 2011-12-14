@@ -46,10 +46,24 @@
 		var myCheckinList = Ti.UI.createButton($.mixin({
 			title: L("my_checkin_list")
 		}, $$.button));
+		myCheckinList.addEventListener('click', function(){
+			ex.ui.open(ex.ui.checkin.createCheckinListWindow({
+				title: L("my_checkin_list"),
+				userId: "@me",
+				groupId: "@self"
+			}));
+		});
 		
-		var friendcheckinList = Ti.UI.createCheckinList = Ti.UI.createButton($.mixin({
+		var friendCheckinList = Ti.UI.createCheckinList = Ti.UI.createButton($.mixin({
 			title: L("friend_checkin_list")
 		}, $$.button));
+		friendCheckinList.addEventListener('click', function(){
+			ex.ui.open(ex.ui.checkin.createCheckinListWindow({
+				title: L("friend_checkin_list"),
+				userId: "@me",
+				groupId: "@friends"
+			}));
+		});
 		
 		var checkin = Ti.UI.createButton($.mixin({
 			title: L("checkin")
@@ -70,7 +84,7 @@
 		win.add(friendSpots);
 		win.add(search);
 		win.add(myCheckinList);
-		win.add(friendcheckinList);
+		win.add(friendCheckinList);
 		win.add(checkin);
 		
 		return win;
@@ -209,6 +223,108 @@
 				});
 			});
 		}
+		
+		$.osEach({
+			iphone: _init,
+			android: function(){
+				win.addEventListener('open', _init);
+			}
+		});
+		
+		return win;
+	};
+	
+	ex.ui.checkin.createCheckinListWindow = function(config){
+		var win = Ti.UI.createWindow($.mixin({
+			title: config.title || L("checkin_api")
+		}, $$.window));
+		
+		var _init = function(){
+			var tableView = Ti.UI.createTableView({
+				editable: true
+			});
+			win.add(tableView);
+			
+			tableView.addEventListener('delete', function(e){
+				mixi.graphApi.checkinsDestroy({
+					spotId: e.rowData.spotId,
+					checkinId: e.rowData.checkinId,
+					success: function(json){
+						alert(json);
+					},
+					error: function(e){
+						alert(e.error);
+					}
+				})
+			});
+			
+			tableView.addEventListener('click', function(e){
+				switch (e.source.type) {
+					case "comments":
+					case "favorites":
+						break;
+					default:
+						mixi.graphApi.checkin({
+							userId: e.rowData.userId,
+							checkinId: e.rowData.checkinId,
+							success: function(json){
+								alert(json);
+							},
+							error: function(e){
+								alert(e.error);
+							}
+						});
+						break;
+				}
+			});
+			
+			var indicator = ex.ui.createIndicator();
+			indicator.show();
+			
+			mixi.graphApi.checkins({
+				userId: config.userId,
+				groupId: config.groupId,
+				success: function(json) {
+					json.entry.forEach(function(checkin){
+						var row = Ti.UI.createTableViewRow($.mixin({
+							spotId: checkin.spot.id,
+							checkinId: checkin.id,
+							userId: checkin.user.id
+						}, $$.checkinTableRow));
+						
+						row.add(Ti.UI.createImageView($.mixin({
+							image: checkin.user.thumbnailUrl
+						}, $$.checkinThumbnail)));
+						
+						row.add(Ti.UI.createLabel($.mixin({
+							text: checkin.user.displayName
+						}, $$.checkinTableRowNameLabel)));
+						
+						row.add(Ti.UI.createLabel($.mixin({
+							text: String.format(L("checkin_to"), checkin.spot.name.formatted),
+						}, $$.checkinTableRowCommentLabel)));
+						
+						var commentsButton = Ti.UI.createButton($$.checkinTableRowCommentsButton);
+						commentsButton.addEventListener('click', function(){
+						});
+						row.add(commentsButton);
+						
+						var favoritesButton = Ti.UI.createButton($$.checkinTableRowFavoritesButton);
+						favoritesButton.addEventListener('click', function(){
+						});
+						row.add(favoritesButton);
+						
+						tableView.appendRow(row);
+					});
+					
+					indicator.hide();
+				},
+				error : function(e) {
+					indicator.hide();
+					alert(e.error);
+				}
+			})
+		};
 		
 		$.osEach({
 			iphone: _init,
