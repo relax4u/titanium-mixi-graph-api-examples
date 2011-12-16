@@ -30,7 +30,7 @@ Ti.include(
 		}
 	};
 	
-	var MixiGraphApi = require('/mixi').GraphApi;
+	var MixiGraphApi = require('/lib/mixi').GraphApi;
 	mixi.graphApi = new MixiGraphApi(mixi.config);
 })();
 

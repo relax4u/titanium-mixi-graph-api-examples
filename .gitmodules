@@ -1,0 +1,3 @@
+[submodule "Resources/lib"]
+	path = Resources/lib
+	url = git://github.com/relax4u/titanium-mixi-graph-api.git
