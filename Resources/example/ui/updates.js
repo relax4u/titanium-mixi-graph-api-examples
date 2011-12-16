@@ -62,8 +62,8 @@
 						
 						row.add(Ti.UI.createLabel($.mixin({
 							text: L("updates_message")
-								.replace("#{objectType}", L("updates_" + item.object.objectType))
-								.replace("#{title}", item.object.displayName)
+								.replace("#{objectType}", L("updates_" + item.object.objectType.replace("-", "_")))
+								.replace("#{title}", item.title)
 								.replace("#{verb}", L("updates_" + item.verb)),
 						}, $$.updatesTableRowCommentLabel)));
 						
