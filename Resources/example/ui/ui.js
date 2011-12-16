@@ -84,7 +84,8 @@
 				{title: L("photo_api"), color: "#000", ui: "photo", hasChild: true},
 				{title: L("message_api"), color: "#000", ui: "message", hasChild: true},
 				{title: L("dialy_api"), color: "#000", ui: "dialy", hasChild: true},
-				{title: L("checkin_api"), color: "#000", ui: "checkin", hasChild: true}
+				{title: L("checkin_api"), color: "#000", ui: "checkin", hasChild: true},
+				{title: L("profile_image_api"), color: "#000", ui: "profileImage", hasChild: true}
 			]
 		});
 		tableView.addEventListener('click', function(e){
@@ -183,5 +184,6 @@ Ti.include(
 	"/example/ui/photo.js",
 	"/example/ui/message.js",
 	"/example/ui/dialy.js",
-	"/example/ui/checkin.js"
+	"/example/ui/checkin.js",
+	"/example/ui/profile_image.js"
 );

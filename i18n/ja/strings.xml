@@ -97,4 +97,7 @@
 	<string name="unknown_error">エラーが発生しました</string>
 	<string name="unknown">不明</string>
 	<string name="add">追加</string>
+	<string name="profile_image_api">Profile Image API</string>
+	<string name="my_profile_image">自分のプロフィール画像</string>
+	<string name="friend_profile_image_list">友達のプロフィール画像</string>
 </resources>

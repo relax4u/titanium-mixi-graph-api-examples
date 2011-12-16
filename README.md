@@ -154,7 +154,7 @@ APIによってはパラメータを指定することもあります。その�
 * spots()
 * searchSpots()
 * spot({spotId: "spotId"})
-* spotsCrete({parameters: {name: "spot name", description: "my spot"})
+* spotsCreate({parameters: {name: "spot name", description: "my spot"})
 * spotsDestroy({spotId: "spotId"})
 * checkins()
 * checkin({spotId: "spotId"})
