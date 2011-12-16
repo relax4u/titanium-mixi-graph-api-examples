@@ -126,12 +126,10 @@ APIによってはパラメータを指定することもあります。その�
 
 ### Message API
 
-* messagesInbox()
-* messagesOutbox()
+* messages({boxId: "@inbox"})
 * messagesSend({title: "title", body: "body", recipients: ["userId"]})
-* messagesInbodUpdate({status: "read"})
-* messagesInboxDestroy({messageId: "messageId"})
-* messagesOutboxDestroy({messageId: "messageId"})
+* messagesUpdate({boxId: "@inbox", messageId: "messageId", parameters: {status: "read"}})
+* messagesDestroy({messageId: "messageId"})
 
 ### Dialy API
 

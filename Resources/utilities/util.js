@@ -12,6 +12,8 @@ var isPresent = function(object) {
 			return true;
 		case "boolean":
 			return object;
+		case "function":
+			return true;
 		case "object":
 			if (object instanceof Array) {
 				return object.length > 0

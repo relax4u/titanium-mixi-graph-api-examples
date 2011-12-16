@@ -34,6 +34,7 @@
 	<string name="updates_bookmark">ブックマーク</string>
 	<string name="updates_person">近況</string>
 	<string name="updates_post">追加</string>
+	<string name="updates_share">シェア</string>
 	<string name="updates_message">#{objectType}に「#{title}」を#{verb}しました。</string>
 	<string name="voice_api">Voice API</string>
 	<string name="user_timeline">つぶやき一覧</string>
@@ -48,6 +49,12 @@
 	<string name="add_voice">つぶやく</string>
 	<string name="check_api">Check API</string>
 	<string name="check">いいね！</string>
+	<string name="message_api">Message API</string>
+	<string name="inbox">受信ボックス</string>
+	<string name="outbox">送信ボックス</string>
+	<string name="send">送信する</string>
+	<string name="reply">返信する</string>
+	<string name="please_input_body">本文を入力してください</string>
 	<string name="photo_api">Photo API</string>
 	<string name="album_list">アルバム一覧</string>
 	<string name="friend_album_list">友達のアルバム一覧</string>

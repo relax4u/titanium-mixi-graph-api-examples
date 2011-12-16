@@ -82,6 +82,7 @@
 				{title: L("voice_api"), color: "#000", ui: "voice", hasChild: true},
 				{title: L("check_api"), color: "#000", ui: "check", hasChild: true},
 				{title: L("photo_api"), color: "#000", ui: "photo", hasChild: true},
+				{title: L("message_api"), color: "#000", ui: "message", hasChild: true},
 				{title: L("dialy_api"), color: "#000", ui: "dialy", hasChild: true},
 				{title: L("checkin_api"), color: "#000", ui: "checkin", hasChild: true}
 			]
@@ -180,6 +181,7 @@ Ti.include(
 	"/example/ui/voice.js",
 	"/example/ui/check.js",
 	"/example/ui/photo.js",
+	"/example/ui/message.js",
 	"/example/ui/dialy.js",
 	"/example/ui/checkin.js"
 );

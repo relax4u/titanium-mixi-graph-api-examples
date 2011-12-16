@@ -246,17 +246,11 @@ var GraphApi = function(params) {
 		self.callApi("DELETE", url, config);
 	};
 	
-	this.messagesInbox = function(config) {
-		config = mixin({userId: "@me", messageId: ""}, config, true);
-		var url = String.format("messages/%s/@inbox/%s", config.userId, config.messageId);
+	this.messages = function(config) {
+		config = mixin({userId: "@me", boxId: "@inbox", messageId: ""}, config, true);
+		var url = String.format("messages/%s/%s/%s", config.userId, config.boxId, config.messageId);
 		self.callApi("GET", url, config);
-	};
-	
-	this.messagesOutbox = function(config) {
-		config = mixin({userId: "@me", messageId: ""}, config, true);
-		var url = String.format("messages/%s/@outbox/%s", config.userId, config.messageId);
-		self.callApi("GET", url, config);
-	};
+	}
 	
 	this.messagesSend = function(config) {
 		config = mixin({userId: "@me"}, config, true);
@@ -264,21 +258,15 @@ var GraphApi = function(params) {
 		self.callApi("POST", url, mixin(config, {type: "json"}));
 	};
 	
-	this.messagesInboxUpdate = function(config) {
-		config = mixin({userId: "@me"}, config, true);
-		var url = String.format("messages/%s/@self/@inbox/%s", config.userId, config.messageId);
+	this.messagesUpdate = function(config) {
+		config = mixin({userId: "@me", boxId: "@inbox"}, config, true);
+		var url = String.format("messages/%s/@self/%s/%s", config.userId, config.boxId, config.messageId);
 		self.callApi("PUT", url, mixin(config, {type: "json"}));
 	};
 	
-	this.messagesInboxDestroy = function(config) {
-		config = mixin({userId: "@me"}, config, true);
-		var url = String.format("messages/%s/@self/@inbox/%s", config.userId, config.messageId);
-		self.callApi("DELETE", url, config);
-	};
-	
-	this.messagesOutboxDestroy = function(config) {
-		config = mixin({userId: "@me"}, config, true);
-		var url = String.format("messages/%s/@self/@outbox/%s", config.userId, config.messageId);
+	this.messagesDestroy = function(config) {
+		config = mixin({userId: "@me", boxId: "@inbox"}, config, true);
+		var url = String.format("messages/%s/@self/%s/%s", config.userId, config.boxId, config.messageId);
 		self.callApi("DELETE", url, config);
 	};
 	

@@ -116,7 +116,29 @@
 		bottom: '40dp',
 		right: '10dp'
 	}, $$.voiceTableRowButton);
-
+	
+	// for Message list
+	$$.messageTableRow = $$.updatesTableRow;
+	$$.messageThumbnail = $$.updatesThumbnail;
+	$$.messageTableRowTitleLabel = $.merge({
+		top: '10dp',
+		left: '70dp',
+		height: '15dp',
+		font: {fontSize: '10dp', fontWeight: 'bold', fontFamily: 'Helvetica Neue'}
+	}, $$.label);
+	$$.messageTableRowBodyLabel = $.merge({
+		top: '40dp',
+		left: '70dp',
+		height: '30dp',
+		font: {fontSize: '10dp', fontFamily: 'Helvetica Neue'},
+		textAlign: 'left'
+	}, $$.label);
+	$$.messageTableRowReplyButton = $.merge({
+		type: "reply",
+		title: L("reply"),
+		bottom: '10dp',
+		right: '10dp'
+	}, $$.voiceTableRowButton);
 	
 	// for Photo list
 	$$.photoTableRow = {
