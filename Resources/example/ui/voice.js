@@ -97,8 +97,14 @@
 				win.add(indicator);
 				indicator.show();
 				
+				var parameters = {};
+				$.iphoneOnly(function(){
+					parameters = {emojiCarrier: "softbank", emojiCharset:"utf8"}
+				});
+				
 				mixi.graphApi[name]({
 					postId: config.postId,
+					parameters: parameters,
 					success: function(json){
 						json.forEach(function(voice){
 							var row = Ti.UI.createTableViewRow($.mixin({
@@ -198,8 +204,14 @@
 				win.add(indicator);
 				indicator.show();
 				
+				var parameters = {};
+				$.iphoneOnly(function(){
+					parameters = {emojiCarrier: "softbank", emojiCharset:"utf8"}
+				});
+				
 				mixi.graphApi.voiceReplies({
 					postId: config.postId,
+					parameters: parameters,
 					success: function(json){
 						json.forEach(function(voice){
 							var row = Ti.UI.createTableViewRow($.mixin({
